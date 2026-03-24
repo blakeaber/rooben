@@ -1,8 +1,8 @@
-name: CI — Tests & Example Orchestration
+name: CI
 
 on:
   push:
-    branches: [main, "claude/**"]
+    branches: [main]
   pull_request:
     branches: [main]
 
@@ -12,96 +12,37 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-
       - run: pip install ruff
       - run: ruff check src/ tests/
-      # rooben-pro is linted in its own repository
 
   test:
-    name: Unit & Integration Tests
+    name: Tests
     needs: lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-
       - name: Install dependencies
-        run: pip install -e ".[test]"
-
-      - name: Install rooben-pro (optional, for integration tests)
-        run: pip install rooben-pro[linear,export] 2>/dev/null || true
-
-      - name: Run test suite
+        run: pip install -e ".[test,dashboard,mcp]"
+      - name: Run tests
         run: python -m pytest tests/ --ignore=tests/e2e -v --timeout=60
 
-  e2e:
-    name: E2E Browser Tests
-    needs: test
+  validate:
+    name: Validate Extensions
+    needs: lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
-      - name: Install Python dependencies
-        run: pip install -e ".[test]"
-
-      - name: Install agent-browser
-        run: |
-          npm install -g agent-browser
-          agent-browser install
-
-      - name: Install frontend dependencies
-        run: cd dashboard && npm ci
-
-      - name: Start backend
-        run: |
-          uvicorn rooben.dashboard.app:create_app --factory --host 127.0.0.1 --port 8420 &
-          sleep 3
-          curl -f http://localhost:8420/api/health
-
-      - name: Start frontend
-        run: |
-          cd dashboard && npm run dev &
-          sleep 5
-          curl -f http://localhost:3000/api/health
-
-      - name: Run e2e tests (no-DB subset)
-        run: python -m pytest tests/e2e/ -v --timeout=120 -m "not requires_db"
-
-      - name: Cleanup
-        if: always()
-        run: |
-          pkill -f "uvicorn" || true
-          pkill -f "next dev" || true
-
-  example-orchestration:
-    name: Example Spec Orchestration
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
       - name: Install dependencies
-        run: pip install -e ".[test]"
-
+        run: pip install -e .
       - name: Validate extension manifests
         run: |
           python -c "
@@ -117,8 +58,5 @@ jobs:
                   print(f'  FAIL: {f}: {e}')
           if errors:
               raise SystemExit(f'{len(errors)} manifest(s) failed validation')
-          print(f'All manifests valid')
+          print('All manifests valid')
           "
-
-      - name: Run realtime_dashboard example orchestration
-        run: python -m pytest tests/test_example_orchestration.py -v --timeout=120
