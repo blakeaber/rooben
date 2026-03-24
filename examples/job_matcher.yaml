@@ -1,0 +1,374 @@
+id: spec-job-matcher
+version: 1.0.0
+title: Autonomous Job Matching Pipeline
+goal: "Build a set of standalone Python services that autonomously find job postings\n\
+  matching a user's CV/resume and produce a ranked report. Each service is a\nrunnable\
+  \ Python module that can operate independently or be composed into a\npipeline.\n\
+  \nThe pipeline:\n  1. Parse a CV (PDF/text) into a structured professional profile\n\
+  \  2. Search for job postings across multiple sources concurrently\n  3. Score each\
+  \ posting against the profile\n  4. Produce a ranked report with match scores and\
+  \ application links\n\nEach service must be a standalone .py file that works with\
+  \ `python -m` and\nalso exposes a function callable from other Python code.\n"
+context: "The system produces four standalone Python services as output artifacts:\n\
+  \n1. cv_parser.py — Reads a CV file (PDF or plain text), extracts structured\n \
+  \  data: skills, job titles, years of experience, industries, education,\n   certifications.\
+  \ Uses an LLM (Claude) for intelligent extraction. Can be\n   run as: `python cv_parser.py\
+  \ resume.pdf --output profile.json`\n\n2. job_scraper.py — Uses Playwright to search\
+  \ for jobs on the open web via\n   configurable search engines and job boards. Accepts\
+  \ search parameters\n   (keywords, location, remote preference) and returns structured\
+  \ job\n   listings. Can be run as: `python job_scraper.py --keywords \"python engineer\"\
+  \ --location \"remote\"`\n\n3. job_scorer.py — Takes a profile JSON and a list of\
+  \ job postings, scores\n   each posting on a 0-100 scale across dimensions (skill\
+  \ match, seniority\n   fit, industry alignment, location preference). Uses an LLM\
+  \ for semantic\n   matching. Can be run as: `python job_scorer.py profile.json jobs.json\
+  \ --output scored.json`\n\n4. pipeline.py — CLI that wires the three services together:\
+  \ parse CV →\n   search jobs → score → output ranked report. Can be run as:\n  \
+  \ `python pipeline.py resume.pdf --location \"San Francisco\" --top 20`\n\nEach\
+  \ service writes its output to stdout (JSON) or a file, making them\ncomposable\
+  \ via Unix pipes or direct Python imports.\n"
+rationale: "Building standalone services rather than monolithic code means:\n  - Each\
+  \ service can be tested, debugged, and iterated independently\n  - The pipeline\
+  \ can be run all at once or step-by-step\n  - Individual services can be replaced\
+  \ (e.g., swap Playwright for a\n    different scraper) without touching the rest\n\
+  \  - The LLM-powered services (parser, scorer) can use any provider\n\nPlaywright\
+  \ is used for job scraping because:\n  - Job boards (LinkedIn, Indeed) serve content\
+  \ to browsers but restrict APIs\n  - Google Jobs aggregates listings from many sources\
+  \ and is search-accessible\n  - A headless browser can navigate paginated results\
+  \ naturally\n  - No API keys or partner agreements needed\n"
+deliverables:
+- id: D-001
+  name: CV Parser Service
+  deliverable_type: application
+  description: "Standalone Python module: cv_parser.py\n\nInput: Path to CV file (PDF\
+    \ or .txt)\nOutput: JSON profile with fields:\n  - name, email, phone (contact\
+    \ info)\n  - skills: list of {name, level, years} objects\n  - experience: list\
+    \ of {title, company, start, end, description}\n  - education: list of {degree,\
+    \ institution, year}\n  - certifications: list of strings\n  - summary: 2-3 sentence\
+    \ professional summary\n  - preferred_titles: inferred job titles the person would\
+    \ target\n  - industries: list of industries they've worked in\n\nMust work as:\n\
+    \  CLI: python cv_parser.py resume.pdf --output profile.json\n  Library: from\
+    \ cv_parser import parse_cv; profile = await parse_cv(\"resume.pdf\")\n\nUses\
+    \ anthropic SDK to call Claude for intelligent extraction.\nFalls back to regex-based\
+    \ extraction if no API key is set.\n"
+  output_path: output/cv_parser.py
+  acceptance_criteria_ids:
+  - AC-001
+  - AC-002
+  - AC-003
+- id: D-002
+  name: Job Scraper Service
+  deliverable_type: application
+  description: "Standalone Python module: job_scraper.py\n\nInput: Search parameters\
+    \ (keywords, location, remote flag, max results)\nOutput: JSON list of job postings,\
+    \ each with:\n  - title, company, location, url\n  - description (full text or\
+    \ summary)\n  - posted_date (if available)\n  - salary_range (if available)\n\
+    \  - source (which site it was found on)\n\nMust work as:\n  CLI: python job_scraper.py\
+    \ --keywords \"python,fastapi\" --location \"remote\" --max 50\n  Library: from\
+    \ job_scraper import search_jobs; jobs = await search_jobs(keywords=[...])\n\n\
+    Uses Playwright (async) to:\n  1. Search Google Jobs (site:linkedin.com OR site:indeed.com\
+    \ ...)\n  2. Extract structured data from search result snippets\n  3. Optionally\
+    \ navigate to individual listing pages for full descriptions\n  4. Handle pagination\
+    \ (click \"next\" or scroll)\n\nMust handle rate limiting (random delays between\
+    \ requests).\nMust support headless and headed modes for debugging.\n"
+  output_path: output/job_scraper.py
+  acceptance_criteria_ids:
+  - AC-004
+  - AC-005
+  - AC-006
+- id: D-003
+  name: Job Scorer Service
+  deliverable_type: application
+  description: "Standalone Python module: job_scorer.py\n\nInput: Profile JSON (from\
+    \ cv_parser) + list of job postings (from job_scraper)\nOutput: Scored and ranked\
+    \ list with:\n  - All original job fields\n  - overall_score: 0-100 composite\n\
+    \  - skill_match: 0-100 (how many required skills the candidate has)\n  - seniority_fit:\
+    \ 0-100 (junior/mid/senior alignment)\n  - industry_match: 0-100 (domain relevance)\n\
+    \  - title_match: 0-100 (how close the title is to preferred_titles)\n  - reasoning:\
+    \ 1-2 sentence explanation of the score\n\nMust work as:\n  CLI: python job_scorer.py\
+    \ profile.json jobs.json --output scored.json --top 20\n  Library: from job_scorer\
+    \ import score_jobs; scored = await score_jobs(profile, jobs)\n\nUses Claude to\
+    \ semantically compare profile against each job description.\nBatches jobs (10\
+    \ per LLM call) to minimize API usage.\nFalls back to keyword-based TF-IDF scoring\
+    \ if no API key is set.\n"
+  output_path: output/job_scorer.py
+  acceptance_criteria_ids:
+  - AC-007
+  - AC-008
+  - AC-009
+- id: D-004
+  name: Pipeline CLI
+  deliverable_type: application
+  description: "Standalone Python module: pipeline.py\n\nWires cv_parser → job_scraper\
+    \ → job_scorer into a single command:\n  python pipeline.py resume.pdf --location\
+    \ \"SF Bay Area\" --remote --top 20\n\nSteps:\n  1. Parse CV into profile (cv_parser)\n\
+    \  2. Generate search queries from profile (skills + preferred_titles)\n  3. Run\
+    \ multiple searches concurrently (job_scraper)\n  4. Deduplicate results by URL\n\
+    \  5. Score all jobs against profile (job_scorer)\n  6. Output top N results as\
+    \ formatted table or JSON\n\nUses click for CLI. Supports --output json|table|csv\
+    \ formats.\nRequires cv_parser.py, job_scraper.py, and job_scorer.py from D-001..D-003.\n"
+  output_path: output/pipeline.py
+  acceptance_criteria_ids:
+  - AC-010
+  - AC-011
+- id: D-005
+  name: Test Suite
+  deliverable_type: code
+  description: "Pytest test suite covering:\n  - CV parser with a fixture resume (plain\
+    \ text)\n  - Job scraper with mocked Playwright (no real browser needed in tests)\n\
+    \  - Job scorer with fixture profile + jobs\n  - Pipeline integration with all\
+    \ mocked services\n\nRequires all services (D-001 through D-004) to be implemented.\n"
+  output_path: output/tests/
+  acceptance_criteria_ids:
+  - AC-012
+  - AC-013
+- id: D-006
+  name: Requirements and README
+  deliverable_type: document
+  description: 'requirements.txt listing: anthropic, playwright, click, pdfplumber,
+    pydantic
+
+    README with usage examples for each service and the pipeline.
+
+    '
+  output_path: output/
+  acceptance_criteria_ids:
+  - AC-014
+success_criteria:
+  acceptance_criteria:
+  - id: AC-001
+    description: CV parser extracts skills as a list of {name, level, years} objects
+      from plain text input
+    verification: test
+    priority: critical
+  - id: AC-002
+    description: CV parser supports both PDF (via pdfplumber) and plain text (.txt)
+      input formats
+    verification: test
+    priority: high
+  - id: AC-003
+    description: CV parser outputs valid JSON matching the Profile schema (Pydantic
+      model)
+    verification: test
+    priority: critical
+  - id: AC-004
+    description: Job scraper returns structured listings with title, company, location,
+      url, and description fields
+    verification: test
+    priority: critical
+  - id: AC-005
+    description: Job scraper handles pagination (fetches at least 2 pages of results)
+    verification: llm_judge
+    priority: high
+  - id: AC-006
+    description: Job scraper includes random delays between requests (1-3 seconds)
+      to avoid rate limiting
+    verification: llm_judge
+    priority: medium
+  - id: AC-007
+    description: Job scorer produces a 0-100 overall_score for each job with skill_match,
+      seniority_fit, industry_match, and title_match sub-scores
+    verification: test
+    priority: critical
+  - id: AC-008
+    description: Job scorer batches jobs (max 10 per LLM call) to minimize API usage
+    verification: llm_judge
+    priority: high
+  - id: AC-009
+    description: Job scorer has a keyword-based fallback when ANTHROPIC_API_KEY is
+      not set
+    verification: test
+    priority: high
+  - id: AC-010
+    description: Pipeline CLI accepts a CV path, --location, --remote, and --top flags
+      and produces output
+    verification: test
+    priority: critical
+  - id: AC-011
+    description: Pipeline deduplicates jobs by URL before scoring
+    verification: test
+    priority: high
+  - id: AC-012
+    description: Each service has at least 3 unit tests with fixture/mock data
+    verification: llm_judge
+    priority: high
+  - id: AC-013
+    description: Tests run without network access or API keys (all external calls
+      are mocked)
+    verification: test
+    priority: critical
+  - id: AC-014
+    description: requirements.txt lists all dependencies and README shows usage examples
+    verification: llm_judge
+    priority: medium
+  test_requirements:
+  - id: TR-001
+    description: CV parser extracts skills from fixture text
+    test_type: unit
+    target_deliverable: D-001
+    skeleton: "import pytest\nfrom cv_parser import parse_cv_text, Profile\n\nFIXTURE_CV\
+      \ = \"\"\"\nJohn Doe\njohn@example.com | (555) 123-4567\n\nSenior Software Engineer\
+      \ with 8 years of experience in Python,\ndistributed systems, and cloud infrastructure.\
+      \ Expert in FastAPI,\nPostgreSQL, and AWS. Previously at Google and Stripe.\n\
+      \nExperience:\n- Senior Engineer, Stripe (2020-2024): Led payments API team\n\
+      - Software Engineer, Google (2016-2020): Built data pipelines\n\nEducation:\n\
+      - MS Computer Science, Stanford University, 2016\n- BS Mathematics, MIT, 2014\n\
+      \nSkills: Python, Go, FastAPI, PostgreSQL, AWS, Kubernetes, Docker\n\"\"\"\n\
+      \n@pytest.mark.asyncio\nasync def test_parse_skills():\n    profile = await\
+      \ parse_cv_text(FIXTURE_CV)\n    skill_names = [s.name.lower() for s in profile.skills]\n\
+      \    assert \"python\" in skill_names\n    assert \"fastapi\" in skill_names\n\
+      \    assert len(profile.skills) >= 5\n\n@pytest.mark.asyncio\nasync def test_parse_experience():\n\
+      \    profile = await parse_cv_text(FIXTURE_CV)\n    assert len(profile.experience)\
+      \ >= 2\n    assert any(\"stripe\" in e.company.lower() for e in profile.experience)\n\
+      \n@pytest.mark.asyncio\nasync def test_profile_is_valid_json():\n    profile\
+      \ = await parse_cv_text(FIXTURE_CV)\n    json_str = profile.model_dump_json()\n\
+      \    assert \"john\" in json_str.lower()\n"
+  - id: TR-002
+    description: Job scraper returns structured listings with mock browser
+    test_type: unit
+    target_deliverable: D-002
+  - id: TR-003
+    description: Job scorer produces valid scores
+    test_type: unit
+    target_deliverable: D-003
+    skeleton: "import pytest\nfrom job_scorer import score_jobs_keyword, ScoredJob\n\
+      \nFIXTURE_PROFILE = {\n    \"skills\": [\n        {\"name\": \"Python\", \"\
+      level\": \"expert\", \"years\": 8},\n        {\"name\": \"FastAPI\", \"level\"\
+      : \"expert\", \"years\": 4},\n        {\"name\": \"PostgreSQL\", \"level\":\
+      \ \"advanced\", \"years\": 5},\n    ],\n    \"preferred_titles\": [\"Senior\
+      \ Software Engineer\", \"Staff Engineer\"],\n    \"industries\": [\"fintech\"\
+      , \"payments\"],\n}\n\nFIXTURE_JOBS = [\n    {\n        \"title\": \"Senior\
+      \ Python Engineer\",\n        \"company\": \"Acme Corp\",\n        \"location\"\
+      : \"Remote\",\n        \"url\": \"https://example.com/job/1\",\n        \"description\"\
+      : \"Looking for a senior Python developer with FastAPI and PostgreSQL experience\
+      \ in fintech.\",\n    },\n    {\n        \"title\": \"Junior PHP Developer\"\
+      ,\n        \"company\": \"Other Inc\",\n        \"location\": \"NYC\",\n   \
+      \     \"url\": \"https://example.com/job/2\",\n        \"description\": \"Entry-level\
+      \ PHP developer for WordPress sites.\",\n    },\n]\n\ndef test_keyword_scorer_ranks_correctly():\n\
+      \    scored = score_jobs_keyword(FIXTURE_PROFILE, FIXTURE_JOBS)\n    assert\
+      \ len(scored) == 2\n    # Python/FastAPI job should score higher than PHP job\n\
+      \    assert scored[0].overall_score > scored[1].overall_score\n    assert scored[0].title\
+      \ == \"Senior Python Engineer\"\n\ndef test_scores_in_range():\n    scored =\
+      \ score_jobs_keyword(FIXTURE_PROFILE, FIXTURE_JOBS)\n    for job in scored:\n\
+      \        assert 0 <= job.overall_score <= 100\n        assert 0 <= job.skill_match\
+      \ <= 100\n"
+  - id: TR-004
+    description: Pipeline deduplicates jobs by URL
+    test_type: unit
+    target_deliverable: D-004
+    skeleton: "from pipeline import deduplicate_jobs\n\ndef test_dedup_by_url():\n\
+      \    jobs = [\n        {\"title\": \"Job A\", \"url\": \"https://example.com/1\"\
+      },\n        {\"title\": \"Job B\", \"url\": \"https://example.com/2\"},\n  \
+      \      {\"title\": \"Job A duplicate\", \"url\": \"https://example.com/1\"},\n\
+      \    ]\n    deduped = deduplicate_jobs(jobs)\n    assert len(deduped) == 2\n\
+      \    urls = [j[\"url\"] for j in deduped]\n    assert len(set(urls)) == 2\n"
+  - id: TR-005
+    description: Integration test with all services mocked
+    test_type: integration
+    target_deliverable: D-005
+  completion_threshold: 0.85
+constraints:
+- id: C-001
+  category: technology
+  description: Python 3.11+, Pydantic v2 for models, click for CLIs, playwright for
+    browser automation, anthropic SDK for LLM calls
+  hard: true
+- id: C-002
+  category: technology
+  description: Each service must be a single .py file that works standalone (no package
+    structure required)
+  hard: true
+- id: C-003
+  category: security
+  description: API keys must come from environment variables (ANTHROPIC_API_KEY),
+    never hardcoded
+  hard: true
+- id: C-004
+  category: security
+  description: Job scraper must use random delays (1-3s) between page navigations
+    to avoid ban
+  hard: true
+- id: C-005
+  category: compatibility
+  description: All services must have a no-API-key fallback mode (regex parsing, keyword
+    scoring)
+  hard: false
+agents:
+- id: llm-service-dev
+  name: LLM Service Developer
+  transport: llm
+  description: Builds Python services that use the Anthropic SDK for LLM-powered extraction
+    and scoring
+  capabilities:
+  - python
+  - anthropic-sdk
+  - pydantic
+  - llm-integration
+  - click
+  max_concurrency: 2
+  budget:
+    max_retries_per_task: 3
+  max_turns: 25
+- id: browser-automation-dev
+  name: Browser Automation Developer
+  transport: llm
+  description: Builds Playwright-based browser automation scripts for web scraping
+    and data extraction
+  capabilities:
+  - python
+  - playwright
+  - web-scraping
+  - async
+  - browser-automation
+  max_concurrency: 1
+  budget:
+    max_retries_per_task: 3
+  max_turns: 25
+- id: integration-dev
+  name: Integration Developer
+  transport: llm
+  description: Wires standalone services into pipelines with Click CLIs and handles
+    data flow between components
+  capabilities:
+  - python
+  - click
+  - integration
+  - cli
+  - data-pipelines
+  max_concurrency: 1
+  budget:
+    max_retries_per_task: 3
+  max_turns: 25
+- id: test-engineer
+  name: Test Engineer
+  transport: llm
+  description: Writes pytest tests with mocked external dependencies (no network,
+    no API keys)
+  capabilities:
+  - python
+  - pytest
+  - mocking
+  - playwright-testing
+  - fixtures
+  max_concurrency: 2
+  budget:
+    max_retries_per_task: 2
+  max_turns: 25
+global_budget:
+  max_total_tasks: 25
+  max_concurrent_agents: 4
+  max_wall_seconds: 900
+notes: "The planner should discover this dependency graph:\n\n  D-001 (CV parser)\
+  \ and D-002 (job scraper) are independent — they can be\n  built concurrently by\
+  \ different agents (llm-service-dev and\n  browser-automation-dev).\n\n  D-003 (job\
+  \ scorer) depends on D-001's Profile model but not on D-002's\n  code (it just consumes\
+  \ the same JSON format).\n\n  D-004 (pipeline CLI) depends on all three services\
+  \ (D-001, D-002, D-003).\n\n  D-005 (tests) depends on all production services.\n\
+  \n  D-006 (requirements + README) depends on knowing the full dependency list.\n\
+  \nExpected concurrent dispatch:\n  Batch 1: D-001 (llm-service-dev) + D-002 (browser-automation-dev)\
+  \ in parallel\n  Batch 2: D-003 (llm-service-dev) — needs Profile model from D-001\n\
+  \  Batch 3: D-004 (integration-dev) + D-006 (integration-dev)\n  Batch 4: D-005\
+  \ (test-engineer)\n\nEach deliverable is a STANDALONE Python file. The agents should\
+  \ write\ncomplete, runnable .py files as artifacts — not stubs or pseudocode.\n\
+  Every file must have:\n  - A `if __name__ == \"__main__\":` block with CLI argument\
+  \ parsing\n  - Exported functions for library use\n  - Pydantic models for input/output\
+  \ schemas\n  - Error handling for missing dependencies/API keys\n"

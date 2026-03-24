@@ -1,0 +1,22 @@
+{
+  "generated_at": "2025-01-01T00:00:00Z",
+  "extensions": [
+    {"name": "slack-notifications", "type": "integration", "path": "integrations/slack-notifications"},
+    {"name": "github-issues", "type": "integration", "path": "integrations/github-issues"},
+    {"name": "postgres-query", "type": "integration", "path": "integrations/postgres-query"},
+    {"name": "sales-pipeline-report", "type": "template", "path": "templates/sales-pipeline-report"},
+    {"name": "competitive-analysis", "type": "template", "path": "templates/competitive-analysis"},
+    {"name": "research-report", "type": "template", "path": "templates/research-report"},
+    {"name": "client-briefing", "type": "template", "path": "templates/client-briefing"},
+    {"name": "rest-api", "type": "template", "path": "templates/rest-api"},
+    {"name": "cli-tool", "type": "template", "path": "templates/cli-tool"},
+    {"name": "data-pipeline", "type": "template", "path": "templates/data-pipeline"},
+    {"name": "react-dashboard", "type": "template", "path": "templates/react-dashboard"},
+    {"name": "weekly-report", "type": "template", "path": "templates/weekly-report"},
+    {"name": "competitive-monitor", "type": "template", "path": "templates/competitive-monitor"},
+    {"name": "data-quality-check", "type": "template", "path": "templates/data-quality-check"},
+    {"name": "code-reviewer", "type": "agent", "path": "agents/code-reviewer"},
+    {"name": "research-analyst", "type": "agent", "path": "agents/research-analyst"},
+    {"name": "data-engineer", "type": "agent", "path": "agents/data-engineer"}
+  ]
+}

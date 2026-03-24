@@ -1,0 +1,328 @@
+id: spec-realtime-dashboard
+version: 1.0.0
+title: Real-Time Metrics Dashboard with WebSocket Streaming
+goal: 'Build a Python real-time metrics dashboard with a WebSocket server that
+
+  streams live data from three independent collectors (system metrics, app
+
+  request logs, and error tracker), an aggregation engine that computes
+
+  rolling statistics, and a terminal-based dashboard UI that renders live
+
+  charts using Rich.
+
+  '
+context: 'The system has three concurrent data collectors that each produce different
+
+  metric types on independent schedules. The aggregation engine subscribes to
+
+  all three collectors and maintains rolling windows (1m, 5m, 15m) for each
+
+  metric type. The WebSocket server exposes the aggregated data to clients.
+
+  The terminal UI connects as a WebSocket client and renders live-updating
+
+  panels for CPU, request rate, error rate, and a combined health score.
+
+
+  The collectors are independent of each other. The aggregator depends on all
+
+  three collectors. The WebSocket server depends on the aggregator. The UI
+
+  depends on the WebSocket server. This creates a 4-level deep dependency
+
+  chain with a 3-wide fan-out at level 1.
+
+  '
+rationale: 'Real-time systems combine deep dependency chains (collector → aggregator
+  →
+
+  server → UI) with wide concurrent work (3 independent collectors). The
+
+  async nature requires agents skilled in asyncio, WebSockets, and terminal
+
+  UI rendering. The streaming verification requires both test-based checks
+
+  (does the aggregator math work?) and LLM judgment (is the UI well-designed?).
+
+  '
+deliverables:
+- id: D-001
+  name: Metric Models
+  deliverable_type: code
+  description: Pydantic models for MetricSample (name, value, timestamp, labels dict),
+    RollingWindow (samples list, window_seconds, compute_avg/min/max/p99), AggregatedMetrics
+    (windows per metric name), and DashboardSnapshot (all aggregated metrics at a
+    point in time)
+  output_path: output/src/models.py
+  acceptance_criteria_ids:
+  - AC-001
+- id: D-002
+  name: System Metrics Collector
+  deliverable_type: code
+  description: Async collector that samples CPU percent, memory usage, and disk IO
+    every 1 second using psutil. Yields MetricSample objects. Requires models from
+    D-001.
+  output_path: output/src/collectors/system.py
+  acceptance_criteria_ids:
+  - AC-002
+- id: D-003
+  name: Request Log Collector
+  deliverable_type: code
+  description: Async collector that tails a request log file (or simulates one), parses
+    lines into MetricSample objects for request_count, response_time_ms, and status_code
+    distribution. Requires models from D-001.
+  output_path: output/src/collectors/requests.py
+  acceptance_criteria_ids:
+  - AC-003
+- id: D-004
+  name: Error Tracker Collector
+  deliverable_type: code
+  description: Async collector that monitors an error log or exception counter, produces
+    MetricSample objects for error_count and error_rate_per_minute. Requires models
+    from D-001.
+  output_path: output/src/collectors/errors.py
+  acceptance_criteria_ids:
+  - AC-004
+- id: D-005
+  name: Aggregation Engine
+  deliverable_type: code
+  description: Async engine that subscribes to MetricSample streams from all collectors,
+    maintains RollingWindow instances for 1m/5m/15m intervals, computes a composite
+    health score (0-100), and produces DashboardSnapshot objects. Requires all collectors
+    (D-002, D-003, D-004) and models (D-001).
+  output_path: output/src/aggregator.py
+  acceptance_criteria_ids:
+  - AC-005
+  - AC-006
+- id: D-006
+  name: WebSocket Server
+  deliverable_type: application
+  description: Async WebSocket server using websockets library that broadcasts DashboardSnapshot
+    JSON to connected clients every second. Supports multiple concurrent clients.
+    Requires aggregator (D-005).
+  output_path: output/src/server.py
+  acceptance_criteria_ids:
+  - AC-007
+- id: D-007
+  name: Terminal Dashboard UI
+  deliverable_type: application
+  description: Rich-based terminal UI that connects to the WebSocket server as a client,
+    renders live-updating panels for each metric category, displays a health score
+    gauge, and supports Ctrl+C graceful shutdown. Requires WebSocket server (D-006)
+    to be running.
+  output_path: output/src/dashboard.py
+  acceptance_criteria_ids:
+  - AC-008
+  - AC-009
+- id: D-008
+  name: Unit Test Suite
+  deliverable_type: code
+  description: Tests for RollingWindow statistics (avg, min, max, p99), aggregation
+    engine with mock collectors, and health score computation. Requires D-001 and
+    D-005.
+  output_path: output/tests/unit/
+  acceptance_criteria_ids:
+  - AC-010
+- id: D-009
+  name: Integration Test Suite
+  deliverable_type: code
+  description: Tests that wire real collectors to aggregator, connect a WebSocket
+    client, and validate that DashboardSnapshot arrives with expected fields within
+    5 seconds. Requires all components.
+  output_path: output/tests/test_integration.py
+  acceptance_criteria_ids:
+  - AC-011
+  - AC-012
+success_criteria:
+  acceptance_criteria:
+  - id: AC-001
+    description: RollingWindow correctly computes avg, min, max, and p99 over a sliding
+      window of samples
+    verification: test
+    priority: critical
+  - id: AC-002
+    description: System collector yields MetricSample objects with cpu_percent, memory_percent,
+      and disk_io_bytes fields
+    verification: test
+    priority: high
+  - id: AC-003
+    description: Request collector parses structured log lines and yields request_count
+      and response_time_ms metrics
+    verification: test
+    priority: high
+  - id: AC-004
+    description: Error collector tracks error_count and computes error_rate_per_minute
+      as a rolling derivative
+    verification: test
+    priority: high
+  - id: AC-005
+    description: Aggregator maintains independent rolling windows for each metric
+      across 1m, 5m, and 15m intervals
+    verification: test
+    priority: critical
+  - id: AC-006
+    description: Health score combines CPU usage, error rate, and response time into
+      a 0-100 composite with configurable weights
+    verification: test
+    priority: high
+  - id: AC-007
+    description: WebSocket server broadcasts DashboardSnapshot JSON to all connected
+      clients at least once per second
+    verification: llm_judge
+    priority: high
+  - id: AC-008
+    description: Terminal dashboard renders at least 3 distinct panels (CPU, requests,
+      errors) with live-updating values
+    verification: llm_judge
+    priority: high
+  - id: AC-009
+    description: Dashboard handles WebSocket disconnection gracefully and attempts
+      reconnection
+    verification: llm_judge
+    priority: medium
+  - id: AC-010
+    description: RollingWindow tests validate p99 calculation with a known distribution
+      of 100 samples
+    verification: test
+    priority: critical
+  - id: AC-011
+    description: Integration test receives a valid DashboardSnapshot via WebSocket
+      within 5 seconds of starting
+    verification: test
+    priority: critical
+  - id: AC-012
+    description: Integration test validates that health_score field is present and
+      between 0 and 100
+    verification: test
+    priority: high
+  test_requirements:
+  - id: TR-001
+    description: RollingWindow p99 with known distribution
+    test_type: unit
+    target_deliverable: D-001
+    skeleton: "from models import RollingWindow, MetricSample\nfrom datetime import\
+      \ datetime, timezone\n\ndef test_p99():\n    window = RollingWindow(window_seconds=60)\n\
+      \    now = datetime.now(timezone.utc)\n    for i in range(100):\n        window.add(MetricSample(name=\"\
+      latency\", value=float(i), timestamp=now, labels={}))\n    assert window.p99()\
+      \ >= 98.0\n    assert window.p99() <= 100.0\n"
+  - id: TR-002
+    description: Aggregator with mock collectors
+    test_type: unit
+    target_deliverable: D-005
+  - id: TR-003
+    description: Health score within 0-100 bounds
+    test_type: unit
+    target_deliverable: D-005
+  - id: TR-004
+    description: WebSocket client receives DashboardSnapshot
+    test_type: integration
+    target_deliverable: D-009
+  completion_threshold: 0.85
+constraints:
+- id: C-001
+  category: technology
+  description: Python 3.11+, asyncio, websockets library, Rich for terminal UI, psutil
+    for system metrics
+  hard: true
+- id: C-002
+  category: technology
+  description: All collectors must be async generators that yield MetricSample objects
+  hard: true
+- id: C-003
+  category: performance
+  description: Dashboard refresh rate of at least 1 update per second with less than
+    100ms render time
+  hard: false
+- id: C-004
+  category: security
+  description: WebSocket server binds to localhost only by default
+  hard: true
+agents:
+- id: infra-dev
+  name: Infrastructure Developer
+  transport: llm
+  description: Builds data models, async streaming infrastructure, and WebSocket server
+  capabilities:
+  - python
+  - asyncio
+  - websockets
+  - pydantic
+  - streaming
+  max_concurrency: 2
+  budget:
+    max_retries_per_task: 3
+  max_turns: 25
+- id: collector-dev
+  name: Collector Developer
+  transport: llm
+  description: Implements async data collectors for system metrics, request logs,
+    and error tracking
+  capabilities:
+  - python
+  - asyncio
+  - psutil
+  - log-parsing
+  - monitoring
+  max_concurrency: 3
+  budget:
+    max_retries_per_task: 3
+  max_turns: 25
+- id: ui-dev
+  name: UI Developer
+  transport: llm
+  description: Builds terminal-based dashboard UIs with Rich library
+  capabilities:
+  - python
+  - rich
+  - terminal-ui
+  - data-visualization
+  max_concurrency: 1
+  budget:
+    max_retries_per_task: 2
+  max_turns: 25
+- id: test-engineer
+  name: Test Engineer
+  transport: llm
+  description: Writes async unit and integration tests with mock collectors and WebSocket
+    clients
+  capabilities:
+  - python
+  - pytest
+  - asyncio
+  - testing
+  - websockets
+  max_concurrency: 2
+  budget:
+    max_retries_per_task: 2
+  max_turns: 25
+global_budget:
+  max_total_tasks: 30
+  max_concurrent_agents: 5
+  max_wall_seconds: 900
+notes: 'The planner should discover a 4-level deep dependency chain with a 3-wide
+
+  fan-out at level 1:
+
+
+  Level 0: D-001 (models) — infra-dev
+
+  Level 1: D-002, D-003, D-004 (3 collectors) — collector-dev (max_concurrency: 3)
+
+  Level 2: D-005 (aggregator) — infra-dev — depends on all 3 collectors
+
+  Level 3: D-006 (WebSocket server) — infra-dev — depends on aggregator
+
+  Level 4: D-007 (dashboard UI) — ui-dev — depends on server
+
+
+  With 4 agents and max_concurrent_agents: 5, the system can run collector-dev
+
+  (3 tasks) + infra-dev (1 task for models) simultaneously in batch 1.
+
+
+  The test tasks (D-008, D-009) add cross-cutting dependencies that the planner
+
+  must weave into the execution graph correctly.
+
+  '

@@ -1,0 +1,17 @@
+schema_version: 1
+name: client-briefing
+type: template
+version: 1.0.0
+author: rooben
+license: MIT
+description: "Prepare a client-facing strategy and briefing document"
+tags: [client, briefing, strategy, consulting]
+domain_tags: [strategy, consulting]
+category: operator
+use_cases:
+  - "Client strategy presentations"
+  - "Executive briefing documents"
+  - "Consulting deliverables"
+min_rooben_version: "0.1.0"
+prefill: "Create a professional client briefing document. Include a situation assessment identifying key challenges and opportunities, evaluate strategic options with trade-offs, recommend an approach with a phased timeline and milestones, and prepare executive briefing deck content."
+requires: []

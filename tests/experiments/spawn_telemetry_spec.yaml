@@ -1,0 +1,134 @@
+id: spec-spawn-experiment
+version: 1.0.0
+title: Full-Stack Task Manager Application
+goal: 'Build a complete web application with multiple independent components:
+
+  (1) a Python FastAPI backend with user authentication and CRUD task endpoints,
+
+  (2) a React frontend with login page, task dashboard, and settings page, and
+
+  (3) comprehensive API documentation in OpenAPI format with deployment configuration.
+
+
+  This task has multiple substantial, independent deliverables that could benefit
+
+  from parallel agent execution.
+
+  '
+context: 'This is a multi-component project requiring expertise across backend API
+  design,
+
+  frontend UI development, and infrastructure configuration. Each component is
+
+  independently buildable and testable.
+
+  '
+rationale: 'FastAPI + React is a standard modern web stack. The components are intentionally
+
+  independent to test whether agents recognize opportunities for parallel decomposition.
+
+  '
+deliverables:
+- id: D-001
+  name: Backend API
+  deliverable_type: application
+  description: 'FastAPI application with JWT authentication, user registration/login,
+
+    and full CRUD endpoints for task management (create, read, update, delete tasks).
+
+    Include SQLite database with SQLAlchemy ORM.
+
+    '
+  output_path: output/backend/
+  acceptance_criteria_ids:
+  - AC-001
+  - AC-002
+- id: D-002
+  name: Frontend Application
+  deliverable_type: application
+  description: 'React application with: login/register pages, task dashboard showing
+    all tasks
+
+    with filtering, task detail/edit view, and a settings page for user preferences.
+
+    Use modern React with hooks and a component library.
+
+    '
+  output_path: output/frontend/
+  acceptance_criteria_ids:
+  - AC-003
+- id: D-003
+  name: Documentation and Deployment
+  deliverable_type: infrastructure
+  description: 'OpenAPI documentation for all backend endpoints, Docker Compose configuration
+
+    for running the full stack (backend + frontend + database), and a README with
+
+    setup instructions.
+
+    '
+  output_path: output/deploy/
+  acceptance_criteria_ids:
+  - AC-004
+success_criteria:
+  acceptance_criteria:
+  - id: AC-001
+    description: Backend has working auth endpoints (register, login, token refresh)
+    verification: llm_judge
+    priority: critical
+  - id: AC-002
+    description: Backend has CRUD endpoints for task management
+    verification: llm_judge
+    priority: critical
+  - id: AC-003
+    description: Frontend has login page and task dashboard components
+    verification: llm_judge
+    priority: high
+  - id: AC-004
+    description: Docker Compose file can orchestrate all services
+    verification: llm_judge
+    priority: medium
+  completion_threshold: 0.75
+constraints:
+- id: C-001
+  category: technology
+  description: Backend must use Python 3.11+ and FastAPI
+  hard: true
+- id: C-002
+  category: technology
+  description: Frontend must use React
+  hard: true
+agents:
+- id: fullstack-dev
+  name: Full-Stack Developer
+  transport: llm
+  description: Builds web applications across backend, frontend, and infrastructure
+  capabilities:
+  - python
+  - fastapi
+  - react
+  - docker
+  - api
+  - database
+  max_concurrency: 2
+  budget:
+    max_retries_per_task: 2
+  max_turns: 25
+workflow_hints:
+- name: Build Full-Stack Application
+  description: 'Build all components of the task manager: backend API with auth and
+    CRUD,
+
+    React frontend with login and dashboard, and deployment configuration.
+
+    Consider whether these independent components should be built in parallel
+
+    via sub-workflow spawning.
+
+    '
+  suggested_agent_id: fullstack-dev
+global_budget:
+  max_total_tasks: 15
+  max_concurrent_agents: 3
+  max_workflow_depth: 3
+  max_wall_seconds: 600

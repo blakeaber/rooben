@@ -1,0 +1,13 @@
+{
+  "name": "mcp-gateway",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MCP server gateway — spawns npx MCP servers per-connection with credential injection",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}

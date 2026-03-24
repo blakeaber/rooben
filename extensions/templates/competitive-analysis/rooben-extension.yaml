@@ -1,0 +1,57 @@
+schema_version: 1
+name: competitive-analysis
+type: template
+version: 1.0.0
+author: rooben
+license: MIT
+description: "Research competitors and generate a strategic analysis report"
+tags: [competitive, analysis, strategy, market-research]
+domain_tags: [strategy, research]
+category: operator
+use_cases:
+  - "Competitive landscape mapping"
+  - "Market positioning analysis"
+  - "Strategic planning support"
+min_rooben_version: "0.1.0"
+prefill: "Generate a comprehensive competitive analysis report for my market. Research the competitive landscape, create detailed competitor profiles covering strengths, weaknesses, and pricing, build a feature comparison matrix, and provide actionable strategic recommendations."
+requires: ["web-research"]
+
+template_input_sources:
+  - name: "competitor-data"
+    type: "mcp"
+    integration: "web-research"
+    description: "Web search for competitor information"
+    pre_fetch: false
+
+template_agents:
+  - name: "Research Analyst"
+    description: "Researches competitor offerings, pricing, positioning"
+    capabilities: ["research", "analysis", "competitive-analysis"]
+    integration: "web-research"
+  - name: "Strategy Writer"
+    description: "Synthesizes findings into the analysis report"
+    capabilities: ["writing", "strategy"]
+
+template_workflow_hints:
+  - name: "Competitor Research"
+    description: "Research each competitor's offerings, pricing, strengths, weaknesses"
+    suggested_agent: "research-analyst"
+  - name: "Feature Comparison Matrix"
+    description: "Build structured comparison across key dimensions"
+    suggested_agent: "research-analyst"
+    depends_on: ["Competitor Research"]
+  - name: "Strategic Recommendations"
+    description: "Synthesize findings into actionable recommendations"
+    suggested_agent: "strategy-writer"
+    depends_on: ["Competitor Research", "Feature Comparison Matrix"]
+
+template_deliverables:
+  - name: "Competitive Analysis Report"
+    deliverable_type: "document"
+    description: "Comprehensive analysis with profiles, feature matrix, and recommendations"
+
+template_acceptance_criteria:
+  - description: "Report covers at least 3 competitors with strengths/weaknesses"
+    priority: "critical"
+  - description: "Feature comparison matrix included"
+    priority: "high"

@@ -1,0 +1,155 @@
+{
+  "model": "claude-sonnet-4-20250514",
+  "total_runs": 5,
+  "errors": 0,
+  "runs_with_spawn": 5,
+  "spawn_rate": 1.0,
+  "recommendation": "go",
+  "runs": [
+    {
+      "run_number": 1,
+      "task": "Build a complete task management web application with:\n    (1) a Python FastAPI ",
+      "has_spawn_spec": true,
+      "spawn_spec": {
+        "title": "Complete task management web application",
+        "goal": "Build a full-stack task management app with Python FastAPI backend, React frontend, and Docker deployment as parallel workstreams",
+        "deliverables": [
+          {
+            "name": "Backend API",
+            "deliverable_type": "code",
+            "description": "Python FastAPI backend with JWT authentication, task CRUD endpoints, SQLite database, and comprehensive test suite"
+          },
+          {
+            "name": "Frontend UI",
+            "deliverable_type": "code",
+            "description": "React frontend application with login page, task dashboard featuring filtering/sorting, settings page, and component tests"
+          },
+          {
+            "name": "Deployment Configuration",
+            "deliverable_type": "config",
+            "description": "Docker Compose setup with nginx reverse proxy configuration for full-stack deployment and independent service orchestration"
+          }
+        ],
+        "context": "Parent task explicitly requests three substantial independent components: (1) FastAPI backend with auth and database, (2) React frontend with multiple pages and features, (3) Docker deployment config with nginx. Each component is independently testable and deployable, making parallel development optimal."
+      },
+      "wall_seconds": 6.422852125018835,
+      "error": ""
+    },
+    {
+      "run_number": 2,
+      "task": "Create a real-time notification system consisting of:\n    (1) A notification API",
+      "has_spawn_spec": true,
+      "spawn_spec": {
+        "title": "Real-time notification system",
+        "goal": "Build notification API, WebSocket gateway, email/SMS worker, and React admin dashboard as parallel workstreams",
+        "deliverables": [
+          {
+            "name": "Notification API Service",
+            "deliverable_type": "code",
+            "description": "FastAPI service with PostgreSQL for receiving and storing notification requests, with Redis pub/sub integration and Dockerfile"
+          },
+          {
+            "name": "WebSocket Gateway Service",
+            "deliverable_type": "code",
+            "description": "WebSocket service for real-time client updates, Redis pub/sub listener, and Dockerfile"
+          },
+          {
+            "name": "Email/SMS Delivery Worker",
+            "deliverable_type": "code",
+            "description": "Celery worker for processing queued notifications with email/SMS delivery capabilities and Dockerfile"
+          },
+          {
+            "name": "React Admin Dashboard",
+            "deliverable_type": "code",
+            "description": "React application for monitoring notification delivery status and analytics with Dockerfile"
+          }
+        ],
+        "context": "Parent task requested a complete real-time notification system with 4 distinct services. Each service is substantial enough to warrant independent development with different technology stacks (FastAPI, WebSocket, Celery, React) and communication patterns."
+      },
+      "wall_seconds": 6.2362689999863505,
+      "error": ""
+    },
+    {
+      "run_number": 3,
+      "task": "Build an analytics platform with:\n    (1) A data ingestion pipeline that reads C",
+      "has_spawn_spec": true,
+      "spawn_spec": {
+        "title": "Analytics Platform with Data Pipeline, API, and Dashboard",
+        "goal": "Build a complete analytics platform with independent data ingestion pipeline, REST API service, and dashboard frontend as parallel workstreams",
+        "deliverables": [
+          {
+            "name": "Data Ingestion Pipeline",
+            "deliverable_type": "code",
+            "description": "Python ETL pipeline that reads CSV/JSON files, validates schemas against predefined rules, handles data transformations, and loads clean data into a data warehouse (PostgreSQL/BigQuery). Includes error handling, logging, and scheduling capabilities."
+          },
+          {
+            "name": "REST API Service",
+            "deliverable_type": "code",
+            "description": "FastAPI or Flask service that connects to the data warehouse, exposes endpoints for aggregated metrics (sums, averages, counts), supports custom date range filtering, implements pagination, and includes API documentation. Independent of the ingestion pipeline."
+          },
+          {
+            "name": "Dashboard Frontend",
+            "deliverable_type": "code",
+            "description": "React or Vue.js dashboard that consumes the REST API, displays key metrics through interactive charts (using Chart.js or D3), supports date range selection, implements drill-down functionality, and provides responsive UI for data exploration."
+          }
+        ],
+        "context": "Parent task requested a complete analytics platform with three distinct architectural components: (1) data ingestion pipeline, (2) API layer, and (3) frontend dashboard. Each component is substantial enough to warrant dedicated development and can be built in parallel since they have well-defined interfaces between them."
+      },
+      "wall_seconds": 8.499333249987103,
+      "error": ""
+    },
+    {
+      "run_number": 4,
+      "task": "Create a REST API for a bookstore inventory system AND comprehensive API documen",
+      "has_spawn_spec": true,
+      "spawn_spec": {
+        "title": "Bookstore inventory system with API and documentation",
+        "goal": "Build a complete REST API for bookstore inventory management with comprehensive standalone documentation site",
+        "deliverables": [
+          {
+            "name": "FastAPI Backend",
+            "deliverable_type": "code",
+            "description": "Complete REST API with FastAPI including endpoints for books, authors, categories, and inventory management with PostgreSQL database integration, authentication, validation, and error handling"
+          },
+          {
+            "name": "Documentation Site",
+            "deliverable_type": "documentation",
+            "description": "Standalone MkDocs documentation site with API reference, tutorials, code examples, setup guide, and deployment instructions - independent of the API codebase"
+          }
+        ],
+        "context": "Task explicitly requests both a substantial FastAPI backend system AND a comprehensive standalone documentation site. These are independent deliverables that can be developed in parallel - the API implementation and the documentation site creation are separate substantial workstreams that would benefit from dedicated agent focus."
+      },
+      "wall_seconds": 6.041436541010626,
+      "error": ""
+    },
+    {
+      "run_number": 5,
+      "task": "Build a URL shortener service with:\n    (1) A Go backend API that handles URL sh",
+      "has_spawn_spec": true,
+      "spawn_spec": {
+        "title": "URL Shortener Service",
+        "goal": "Build a complete URL shortener service with Go backend, React frontend, and AWS infrastructure as parallel workstreams",
+        "deliverables": [
+          {
+            "name": "Go Backend API",
+            "deliverable_type": "code",
+            "description": "Go REST API service with URL shortening endpoints, redirection handler, click analytics tracking, database operations, and comprehensive test suite"
+          },
+          {
+            "name": "React Frontend",
+            "deliverable_type": "code",
+            "description": "React web application with URL submission form, link management dashboard, analytics charts, responsive UI, and user authentication"
+          },
+          {
+            "name": "AWS Infrastructure",
+            "deliverable_type": "config",
+            "description": "Terraform infrastructure-as-code for AWS deployment including API Gateway, Lambda functions, DynamoDB tables, CloudFront distribution, and S3 buckets"
+          }
+        ],
+        "context": "Parent task requested a complete URL shortener service with three major independent components: backend API, frontend UI, and cloud infrastructure. Each component can be developed in parallel and has distinct technical requirements and deliverables."
+      },
+      "wall_seconds": 6.655951457913034,
+      "error": ""
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+schema_version: 1
+name: cli-tool
+type: template
+version: 1.0.0
+author: rooben
+license: MIT
+description: "Create a command-line tool with Click"
+tags: [cli, click, python, command-line]
+domain_tags: [software]
+category: builder
+use_cases:
+  - "Developer tooling"
+  - "Automation scripts"
+  - "CLI utility development"
+min_rooben_version: "0.1.0"
+prefill: "Build a Python CLI tool using Click. Include help text, argument validation, error handling, and a comprehensive test suite."
+requires: []

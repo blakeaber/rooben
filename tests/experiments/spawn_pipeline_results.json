@@ -1,0 +1,727 @@
+{
+  "experiment": "spawn_pipeline_e2e",
+  "timestamp": "2026-03-13T19:53:02Z",
+  "specs_planned": 6,
+  "total_tasks": 60,
+  "total_probes": 60,
+  "probes_with_spawn": 2,
+  "overall_spawn_rate": 0.03333333333333333,
+  "by_category": {
+    "A-simple": {
+      "total": 7,
+      "spawned": 0,
+      "rate": 0.0
+    },
+    "B-complex": {
+      "total": 20,
+      "spawned": 0,
+      "rate": 0.0
+    },
+    "C-vague": {
+      "total": 33,
+      "spawned": 2,
+      "rate": 0.06060606060606061
+    }
+  },
+  "plan_summaries": [
+    {
+      "spec_id": "exp-a1",
+      "category": "A-simple",
+      "title": "Hello World REST API",
+      "task_count": 3,
+      "task_titles": [
+        "Set up FastAPI project structure",
+        "Implement GET /hello endpoint",
+        "Configure server startup"
+      ]
+    },
+    {
+      "spec_id": "exp-a2",
+      "category": "A-simple",
+      "title": "Markdown-to-HTML CLI",
+      "task_count": 4,
+      "task_titles": [
+        "Set up CLI project structure",
+        "Implement argument parsing",
+        "Implement markdown to HTML conversion",
+        "Add error handling and validation"
+      ]
+    },
+    {
+      "spec_id": "exp-b1",
+      "category": "B-complex",
+      "title": "Full-Stack Task Manager",
+      "task_count": 11,
+      "task_titles": [
+        "Create database models and schemas",
+        "Implement JWT authentication system",
+        "Implement task CRUD endpoints",
+        "Create FastAPI application entry point",
+        "Initialize React application structure",
+        "Create authentication components",
+        "Create task management components",
+        "Integrate frontend with backend API",
+        "Create backend Dockerfile",
+        "Create frontend Dockerfile",
+        "Create docker-compose configuration"
+      ]
+    },
+    {
+      "spec_id": "exp-b2",
+      "category": "B-complex",
+      "title": "Realtime Analytics Dashboard",
+      "task_count": 9,
+      "task_titles": [
+        "Create WebSocket server with basic connection handling",
+        "Implement event aggregation engine",
+        "Add Prometheus metrics endpoint",
+        "Initialize React dashboard application",
+        "Implement WebSocket client integration",
+        "Build live-updating charts with recharts",
+        "Create Docker Compose setup",
+        "Configure Prometheus scraping",
+        "Build Grafana dashboard JSON"
+      ]
+    },
+    {
+      "spec_id": "exp-c1",
+      "category": "C-vague",
+      "title": "SaaS Analytics Platform",
+      "task_count": 18,
+      "task_titles": [
+        "Design and implement database schema",
+        "Implement authentication and authorization",
+        "Build data ingestion API",
+        "Implement data processing engine",
+        "Create visualization API endpoints",
+        "Set up React application foundation",
+        "Build authentication UI components",
+        "Create data upload interface",
+        "Implement chart visualization components",
+        "Build dashboard interface",
+        "Implement subscription management",
+        "Integrate payment processing",
+        "Build user settings interface",
+        "Implement report generation system",
+        "Build data export features",
+        "Containerize application components",
+        "Set up cloud infrastructure",
+        "Implement monitoring and logging"
+      ]
+    },
+    {
+      "spec_id": "exp-c2",
+      "category": "C-vague",
+      "title": "Enterprise CRM System",
+      "task_count": 15,
+      "task_titles": [
+        "Design and implement database schema",
+        "Implement authentication and RBAC system",
+        "Implement contacts CRUD API",
+        "Implement deals pipeline API",
+        "Implement support tickets API",
+        "Implement custom fields system",
+        "Implement email integration",
+        "Implement reporting and analytics API",
+        "Implement authentication UI",
+        "Build main dashboard",
+        "Build contacts management interface",
+        "Build sales pipeline interface",
+        "Build support tickets interface",
+        "Build administrative panel",
+        "Build reporting interface"
+      ]
+    }
+  ],
+  "probe_results": [
+    {
+      "task_id": "task-setup-project",
+      "task_title": "Set up FastAPI project structure",
+      "spec_id": "exp-a1",
+      "category": "A-simple",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2658
+    },
+    {
+      "task_id": "task-hello-endpoint",
+      "task_title": "Implement GET /hello endpoint",
+      "spec_id": "exp-a1",
+      "category": "A-simple",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 1117
+    },
+    {
+      "task_id": "task-server-config",
+      "task_title": "Configure server startup",
+      "spec_id": "exp-a1",
+      "category": "A-simple",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2264
+    },
+    {
+      "task_id": "task-cli-setup",
+      "task_title": "Set up CLI project structure",
+      "spec_id": "exp-a2",
+      "category": "A-simple",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 1958
+    },
+    {
+      "task_id": "task-arg-parsing",
+      "task_title": "Implement argument parsing",
+      "spec_id": "exp-a2",
+      "category": "A-simple",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2691
+    },
+    {
+      "task_id": "task-md-conversion",
+      "task_title": "Implement markdown to HTML conversion",
+      "spec_id": "exp-a2",
+      "category": "A-simple",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2923
+    },
+    {
+      "task_id": "task-error-handling",
+      "task_title": "Add error handling and validation",
+      "spec_id": "exp-a2",
+      "category": "A-simple",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2879
+    },
+    {
+      "task_id": "task-db-models",
+      "task_title": "Create database models and schemas",
+      "spec_id": "exp-b1",
+      "category": "B-complex",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2809
+    },
+    {
+      "task_id": "task-auth",
+      "task_title": "Implement JWT authentication system",
+      "spec_id": "exp-b1",
+      "category": "B-complex",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2815
+    },
+    {
+      "task_id": "task-task-crud",
+      "task_title": "Implement task CRUD endpoints",
+      "spec_id": "exp-b1",
+      "category": "B-complex",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2829
+    },
+    {
+      "task_id": "task-api-main",
+      "task_title": "Create FastAPI application entry point",
+      "spec_id": "exp-b1",
+      "category": "B-complex",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2751
+    },
+    {
+      "task_id": "task-react-setup",
+      "task_title": "Initialize React application structure",
+      "spec_id": "exp-b1",
+      "category": "B-complex",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2661
+    },
+    {
+      "task_id": "task-auth-components",
+      "task_title": "Create authentication components",
+      "spec_id": "exp-b1",
+      "category": "B-complex",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2655
+    },
+    {
+      "task_id": "task-task-components",
+      "task_title": "Create task management components",
+      "spec_id": "exp-b1",
+      "category": "B-complex",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2662
+    },
+    {
+      "task_id": "task-api-integration",
+      "task_title": "Integrate frontend with backend API",
+      "spec_id": "exp-b1",
+      "category": "B-complex",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2660
+    },
+    {
+      "task_id": "task-backend-dockerfile",
+      "task_title": "Create backend Dockerfile",
+      "spec_id": "exp-b1",
+      "category": "B-complex",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2425
+    },
+    {
+      "task_id": "task-frontend-dockerfile",
+      "task_title": "Create frontend Dockerfile",
+      "spec_id": "exp-b1",
+      "category": "B-complex",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2285
+    },
+    {
+      "task_id": "task-docker-compose",
+      "task_title": "Create docker-compose configuration",
+      "spec_id": "exp-b1",
+      "category": "B-complex",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2662
+    },
+    {
+      "task_id": "task-ws-server",
+      "task_title": "Create WebSocket server with basic connection handling",
+      "spec_id": "exp-b2",
+      "category": "B-complex",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2758
+    },
+    {
+      "task_id": "task-event-aggregation",
+      "task_title": "Implement event aggregation engine",
+      "spec_id": "exp-b2",
+      "category": "B-complex",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2729
+    },
+    {
+      "task_id": "task-prometheus-metrics",
+      "task_title": "Add Prometheus metrics endpoint",
+      "spec_id": "exp-b2",
+      "category": "B-complex",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2733
+    },
+    {
+      "task_id": "task-react-setup",
+      "task_title": "Initialize React dashboard application",
+      "spec_id": "exp-b2",
+      "category": "B-complex",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2726
+    },
+    {
+      "task_id": "task-websocket-client",
+      "task_title": "Implement WebSocket client integration",
+      "spec_id": "exp-b2",
+      "category": "B-complex",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2746
+    },
+    {
+      "task_id": "task-live-charts",
+      "task_title": "Build live-updating charts with recharts",
+      "spec_id": "exp-b2",
+      "category": "B-complex",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2779
+    },
+    {
+      "task_id": "task-docker-compose",
+      "task_title": "Create Docker Compose setup",
+      "spec_id": "exp-b2",
+      "category": "B-complex",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2652
+    },
+    {
+      "task_id": "task-prometheus-config",
+      "task_title": "Configure Prometheus scraping",
+      "spec_id": "exp-b2",
+      "category": "B-complex",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2659
+    },
+    {
+      "task_id": "task-grafana-dashboard",
+      "task_title": "Build Grafana dashboard JSON",
+      "spec_id": "exp-b2",
+      "category": "B-complex",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2651
+    },
+    {
+      "task_id": "task-db-schema",
+      "task_title": "Design and implement database schema",
+      "spec_id": "exp-c1",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2769
+    },
+    {
+      "task_id": "task-auth-system",
+      "task_title": "Implement authentication and authorization",
+      "spec_id": "exp-c1",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2769
+    },
+    {
+      "task_id": "task-data-ingestion",
+      "task_title": "Build data ingestion API",
+      "spec_id": "exp-c1",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2769
+    },
+    {
+      "task_id": "task-data-processing",
+      "task_title": "Implement data processing engine",
+      "spec_id": "exp-c1",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2761
+    },
+    {
+      "task_id": "task-visualization-api",
+      "task_title": "Create visualization API endpoints",
+      "spec_id": "exp-c1",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2770
+    },
+    {
+      "task_id": "task-ui-foundation",
+      "task_title": "Set up React application foundation",
+      "spec_id": "exp-c1",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2768
+    },
+    {
+      "task_id": "task-auth-ui",
+      "task_title": "Build authentication UI components",
+      "spec_id": "exp-c1",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2760
+    },
+    {
+      "task_id": "task-data-upload-ui",
+      "task_title": "Create data upload interface",
+      "spec_id": "exp-c1",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2768
+    },
+    {
+      "task_id": "task-chart-components",
+      "task_title": "Implement chart visualization components",
+      "spec_id": "exp-c1",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2776
+    },
+    {
+      "task_id": "task-dashboard-ui",
+      "task_title": "Build dashboard interface",
+      "spec_id": "exp-c1",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2760
+    },
+    {
+      "task_id": "task-subscription-system",
+      "task_title": "Implement subscription management",
+      "spec_id": "exp-c1",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2758
+    },
+    {
+      "task_id": "task-billing-integration",
+      "task_title": "Integrate payment processing",
+      "spec_id": "exp-c1",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2755
+    },
+    {
+      "task_id": "task-user-settings-ui",
+      "task_title": "Build user settings interface",
+      "spec_id": "exp-c1",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2753
+    },
+    {
+      "task_id": "task-report-generation",
+      "task_title": "Implement report generation system",
+      "spec_id": "exp-c1",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2758
+    },
+    {
+      "task_id": "task-export-functionality",
+      "task_title": "Build data export features",
+      "spec_id": "exp-c1",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2755
+    },
+    {
+      "task_id": "task-containerization",
+      "task_title": "Containerize application components",
+      "spec_id": "exp-c1",
+      "category": "C-vague",
+      "has_spawn": true,
+      "spawn_spec": {
+        "title": "Multi-component application containerization",
+        "goal": "Create Docker containers for backend API, frontend app, and database with orchestration",
+        "deliverables": [
+          {
+            "name": "Backend API Container",
+            "deliverable_type": "code",
+            "description": "Production-ready Dockerfile for backend API with health checks, multi-stage build, and security best practices"
+          },
+          {
+            "name": "Frontend App Container",
+            "deliverable_type": "code",
+            "description": "Production-ready Dockerfile for frontend application with nginx serving, optimized build process"
+          },
+          {
+            "name": "Database Container & Orchestration",
+            "deliverable_type": "config",
+            "description": "Database container configuration, docker-compose files for local development and production, networking and volume management"
+          }
+        ],
+        "context": "Parent task requested containerization of full application stack. Decomposing into parallel workstreams for backend, frontend, and database/orchestration components to enable independent development and optimization of each container."
+      },
+      "tokens_used": 1037
+    },
+    {
+      "task_id": "task-cloud-deployment",
+      "task_title": "Set up cloud infrastructure",
+      "spec_id": "exp-c1",
+      "category": "C-vague",
+      "has_spawn": true,
+      "spawn_spec": {
+        "title": "Cloud Infrastructure Deployment",
+        "goal": "Deploy containerized applications with complete cloud infrastructure including networking, security, and data persistence",
+        "deliverables": [
+          {
+            "name": "Core Infrastructure",
+            "deliverable_type": "infrastructure",
+            "description": "Terraform/CloudFormation templates for VPC, subnets, security groups, and basic AWS/GCP resources"
+          },
+          {
+            "name": "Container Orchestration",
+            "deliverable_type": "infrastructure",
+            "description": "ECS/GKE cluster setup with auto-scaling, load balancing, and service discovery configuration"
+          },
+          {
+            "name": "Database & Storage",
+            "deliverable_type": "infrastructure",
+            "description": "Managed database setup (RDS/Cloud SQL) with backup, monitoring, and security configurations"
+          },
+          {
+            "name": "Security & SSL",
+            "deliverable_type": "config",
+            "description": "SSL certificate management, IAM roles, security policies, and HTTPS termination setup"
+          }
+        ],
+        "context": "Parent task requested complete cloud infrastructure deployment. Decomposing into parallel workstreams for efficient execution of independent infrastructure components."
+      },
+      "tokens_used": 995
+    },
+    {
+      "task_id": "task-monitoring-logging",
+      "task_title": "Implement monitoring and logging",
+      "spec_id": "exp-c1",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2767
+    },
+    {
+      "task_id": "task-db-schema",
+      "task_title": "Design and implement database schema",
+      "spec_id": "exp-c2",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2809
+    },
+    {
+      "task_id": "task-auth-rbac",
+      "task_title": "Implement authentication and RBAC system",
+      "spec_id": "exp-c2",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2779
+    },
+    {
+      "task_id": "task-contact-api",
+      "task_title": "Implement contacts CRUD API",
+      "spec_id": "exp-c2",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2819
+    },
+    {
+      "task_id": "task-deals-api",
+      "task_title": "Implement deals pipeline API",
+      "spec_id": "exp-c2",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2798
+    },
+    {
+      "task_id": "task-tickets-api",
+      "task_title": "Implement support tickets API",
+      "spec_id": "exp-c2",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2795
+    },
+    {
+      "task_id": "task-custom-fields",
+      "task_title": "Implement custom fields system",
+      "spec_id": "exp-c2",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2775
+    },
+    {
+      "task_id": "task-email-integration",
+      "task_title": "Implement email integration",
+      "spec_id": "exp-c2",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2743
+    },
+    {
+      "task_id": "task-reporting-api",
+      "task_title": "Implement reporting and analytics API",
+      "spec_id": "exp-c2",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2746
+    },
+    {
+      "task_id": "task-auth-ui",
+      "task_title": "Implement authentication UI",
+      "spec_id": "exp-c2",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2741
+    },
+    {
+      "task_id": "task-dashboard",
+      "task_title": "Build main dashboard",
+      "spec_id": "exp-c2",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2728
+    },
+    {
+      "task_id": "task-contacts-ui",
+      "task_title": "Build contacts management interface",
+      "spec_id": "exp-c2",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2770
+    },
+    {
+      "task_id": "task-pipeline-ui",
+      "task_title": "Build sales pipeline interface",
+      "spec_id": "exp-c2",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2777
+    },
+    {
+      "task_id": "task-tickets-ui",
+      "task_title": "Build support tickets interface",
+      "spec_id": "exp-c2",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2767
+    },
+    {
+      "task_id": "task-admin-panel",
+      "task_title": "Build administrative panel",
+      "spec_id": "exp-c2",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2771
+    },
+    {
+      "task_id": "task-reports-ui",
+      "task_title": "Build reporting interface",
+      "spec_id": "exp-c2",
+      "category": "C-vague",
+      "has_spawn": false,
+      "spawn_spec": null,
+      "tokens_used": 2752
+    }
+  ],
+  "total_tokens": 157955,
+  "wall_seconds": 1463.137070500059
+}

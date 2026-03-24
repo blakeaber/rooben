@@ -1,0 +1,145 @@
+id: spec-hello-api
+version: 1.0.0
+title: Hello World REST API
+goal: 'Build a production-ready REST API in Python using FastAPI that serves
+
+  a /hello endpoint returning "Hello, World!" and a /hello/<name> endpoint
+
+  returning a personalized greeting.
+
+  '
+context: 'This is a starter project to validate the rooben orchestration framework.
+
+  The API should follow REST conventions, include proper error handling,
+
+  and be deployable as a Docker container.
+
+  '
+rationale: 'FastAPI was chosen for its async support, automatic OpenAPI docs, and
+
+  Pydantic integration which aligns with the rooben stack.
+
+  '
+deliverables:
+- id: D-001
+  name: API Application
+  deliverable_type: application
+  description: FastAPI application with greeting endpoints
+  output_path: output/src/main.py
+  acceptance_criteria_ids:
+  - AC-001
+  - AC-002
+  - AC-003
+- id: D-002
+  name: Test Suite
+  deliverable_type: code
+  description: Pytest test suite with full endpoint coverage
+  output_path: output/tests/
+  acceptance_criteria_ids:
+  - AC-004
+- id: D-003
+  name: Dockerfile
+  deliverable_type: infrastructure
+  description: Multi-stage Dockerfile for the API
+  output_path: output/Dockerfile
+success_criteria:
+  acceptance_criteria:
+  - id: AC-001
+    description: 'GET /hello returns 200 with JSON body {"message": "Hello, World!"}'
+    verification: test
+    priority: critical
+  - id: AC-002
+    description: 'GET /hello/Alice returns 200 with JSON body {"message": "Hello,
+      Alice!"}'
+    verification: test
+    priority: high
+  - id: AC-003
+    description: GET /nonexistent returns 404 with a JSON error body
+    verification: test
+    priority: medium
+  - id: AC-004
+    description: Test coverage is at least 90%
+    verification: llm_judge
+    priority: high
+  test_requirements:
+  - id: TR-001
+    description: Endpoint unit tests using httpx AsyncClient
+    test_type: unit
+    target_deliverable: D-001
+    skeleton: "import pytest\nfrom httpx import AsyncClient, ASGITransport\nfrom main\
+      \ import app\n\n@pytest.mark.asyncio\nasync def test_hello():\n    transport\
+      \ = ASGITransport(app=app)\n    async with AsyncClient(transport=transport,\
+      \ base_url=\"http://test\") as client:\n        resp = await client.get(\"/hello\"\
+      )\n        assert resp.status_code == 200\n        assert resp.json()[\"message\"\
+      ] == \"Hello, World!\"\n\n@pytest.mark.asyncio\nasync def test_hello_name():\n\
+      \    transport = ASGITransport(app=app)\n    async with AsyncClient(transport=transport,\
+      \ base_url=\"http://test\") as client:\n        resp = await client.get(\"/hello/Alice\"\
+      )\n        assert resp.status_code == 200\n        assert resp.json()[\"message\"\
+      ] == \"Hello, Alice!\"\n"
+  - id: TR-002
+    description: E2E test for error handling
+    test_type: e2e
+    target_deliverable: D-001
+  completion_threshold: 1.0
+constraints:
+- id: C-001
+  category: technology
+  description: Must use Python 3.11+ and FastAPI
+  hard: true
+- id: C-002
+  category: security
+  description: No hardcoded secrets or credentials
+  hard: true
+- id: C-003
+  category: performance
+  description: API response time under 100ms for greeting endpoints
+  hard: false
+agents:
+- id: python-dev
+  name: Python Developer
+  transport: llm
+  description: Writes Python application code and APIs
+  capabilities:
+  - python
+  - fastapi
+  - api
+  - docker
+  max_concurrency: 2
+  budget:
+    max_retries_per_task: 3
+  max_turns: 25
+- id: test-writer
+  name: Test Engineer
+  transport: llm
+  description: Writes and runs test suites
+  capabilities:
+  - python
+  - testing
+  - pytest
+  max_concurrency: 1
+  budget:
+    max_retries_per_task: 2
+  max_turns: 25
+workflow_hints:
+- name: API Implementation
+  description: Implement the FastAPI application with endpoints
+  suggested_agent_id: python-dev
+- name: Test Suite
+  description: Write and validate the test suite
+  suggested_agent_id: test-writer
+  depends_on:
+  - API Implementation
+- name: Docker Setup
+  description: Create the Dockerfile
+  suggested_agent_id: python-dev
+  depends_on:
+  - API Implementation
+global_budget:
+  max_total_tasks: 20
+  max_concurrent_agents: 3
+  max_wall_seconds: 1800
+notes: 'This is a demonstration specification. In production, you would typically
+
+  have more detailed acceptance criteria and multiple specialized agents.
+
+  '

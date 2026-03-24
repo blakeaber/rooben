@@ -1,0 +1,26 @@
+schema_version: 1
+name: slack-notifications
+type: integration
+version: 1.0.0
+author: rooben-community
+license: MIT
+description: "Send notifications and read channels via Slack"
+tags: [slack, messaging, notifications]
+domain_tags: [operations, marketing]
+category: operator
+use_cases:
+  - "Send Slack notifications on workflow completion"
+  - "Read Slack channel history for analysis"
+min_rooben_version: "0.1.0"
+cost_tier: 2
+required_env:
+  - name: SLACK_BOT_TOKEN
+    description: "Slack Bot OAuth Token (xoxb-...)"
+    link: "https://api.slack.com/tutorials/tracks/getting-a-token"
+servers:
+  - name: slack
+    transport_type: stdio
+    command: npx
+    args: ["-y", "@anthropic/mcp-server-slack"]
+    env:
+      SLACK_BOT_TOKEN: "${SLACK_BOT_TOKEN}"

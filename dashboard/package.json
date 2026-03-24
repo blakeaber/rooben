@@ -1,0 +1,33 @@
+{
+  "name": "rooben-dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --port 3000",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test:e2e": "cd .. && python -m pytest tests/e2e/ -v --timeout=120"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.2.1",
+    "@tailwindcss/vite": "^4",
+    "@xyflow/react": "^12",
+    "cronstrue": "^2.50",
+    "framer-motion": "^12.36.0",
+    "next": "^15",
+    "react": "^19",
+    "react-dom": "^19",
+    "react-markdown": "^10.1.0",
+    "recharts": "^2.15",
+    "rehype-highlight": "^7.0.2",
+    "remark-gfm": "^4.0.1",
+    "tailwindcss": "^4"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^5"
+  }
+}

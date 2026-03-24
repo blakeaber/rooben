@@ -1,0 +1,16 @@
+schema_version: 1
+name: sales-pipeline-report
+type: template
+version: 1.0.0
+author: rooben-community
+license: MIT
+description: "Generate a sales pipeline analysis report"
+tags: [sales, pipeline, report, analysis]
+domain_tags: [operations, analytics]
+category: operator
+use_cases:
+  - "Weekly sales pipeline review"
+  - "Quarterly business analysis"
+min_rooben_version: "0.1.0"
+prefill: "Generate a comprehensive sales pipeline analysis report including deal velocity, conversion rates, and revenue forecasts"
+requires: []

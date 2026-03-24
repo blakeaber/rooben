@@ -1,0 +1,11 @@
+.env
+**__pycache__/
+tests/artifacts/
+dashboard/node_modules/
+dashboard/.next/
+dashboard/out/
+.rooben/
+.claude/
+test-screenshots/
+*.png
+.playwright-mcp/

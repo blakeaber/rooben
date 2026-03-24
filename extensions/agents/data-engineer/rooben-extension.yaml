@@ -1,0 +1,50 @@
+schema_version: 1
+name: data-engineer
+type: agent
+version: 1.0.0
+author: rooben-community
+license: MIT
+description: Data engineer for ETL pipelines, data transformations, and analytics
+tags:
+- data
+- etl
+- pipeline
+- analytics
+- python
+domain_tags:
+- data-science
+- analytics
+- etl
+category: builder
+use_cases:
+- Build data transformation pipelines
+- Create analytics dashboards
+- Data quality validation
+min_rooben_version: 0.1.0
+transport: llm
+capabilities:
+- python
+- data
+- sql
+- analytics
+- etl
+system_capabilities:
+  filesystem:
+    enabled: true
+    mode: readwrite
+  shell:
+    enabled: true
+max_concurrency: 2
+prompt_template: 'You are a data engineer. Focus on:
+
+  - Clean, efficient data transformations
+
+  - Proper error handling for data quality issues
+
+  - Scalable pipeline design
+
+  - Clear documentation of data schemas and assumptions
+
+  '
+is_default: false
+max_turns: 25

@@ -1,0 +1,26 @@
+schema_version: 1
+name: github-issues
+type: integration
+version: 1.2.0
+author: rooben-community
+license: MIT
+description: "Create, read, and manage GitHub issues and PRs"
+tags: [github, issues, pull-requests, version-control]
+domain_tags: [software, operations]
+category: builder
+use_cases:
+  - "Automatically create issues from workflow outputs"
+  - "Read issue context for development workflows"
+min_rooben_version: "0.1.0"
+cost_tier: 2
+required_env:
+  - name: GITHUB_TOKEN
+    description: "GitHub Personal Access Token"
+    link: "https://github.com/settings/tokens"
+servers:
+  - name: github
+    transport_type: stdio
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-github"]
+    env:
+      GITHUB_TOKEN: "${GITHUB_TOKEN}"

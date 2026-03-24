@@ -1,0 +1,17 @@
+schema_version: 1
+name: data-quality-check
+type: template
+version: 1.0.0
+author: rooben
+license: MIT
+description: "Recurring data validation and quality scoring pipeline"
+tags: [data-quality, validation, scoring, monitoring]
+domain_tags: [data-science, operations]
+category: optimizer
+use_cases:
+  - "Data quality monitoring"
+  - "Schema validation pipelines"
+  - "Quality scorecard generation"
+min_rooben_version: "0.1.0"
+prefill: "Create a data quality pipeline that validates data sources against defined schemas, scores quality metrics, flags anomalies, and generates a quality scorecard report."
+requires: []

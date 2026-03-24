@@ -1,0 +1,425 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=DM+Sans:ital,opsz,wght@0,9..40,100..900;1,9..40,100..900&display=swap");
+@import "tailwindcss";
+
+/* ─── Design Tokens (Light) ────────────────────────────────────────────────── */
+:root {
+  /* Base surfaces */
+  --color-base:        #ffffff;
+  --color-surface-1:   #fafafa;
+  --color-surface-2:   #f8f9fa;
+  --color-surface-3:   #f3f4f6;
+  --color-border:      #e5e7eb;
+  --color-border-dim:  #eef0f2;
+  --color-border-muted:#d1d5db;
+
+  /* Accent palette — Rooben brand teal */
+  --color-accent:      #14b8a6;
+  --color-accent-hover:#0d9488;
+  --color-accent-dim:  rgba(20, 184, 166, 0.08);
+  --color-accent-mid:  rgba(20, 184, 166, 0.20);
+  --color-amber:       #d97706;
+  --color-amber-dim:   rgba(217, 119, 6, 0.08);
+  --color-emerald:     #16a34a;
+  --color-emerald-dim: rgba(22, 163, 74, 0.08);
+  --color-rose:        #dc2626;
+  --color-rose-dim:    rgba(220, 38, 38, 0.08);
+  --color-indigo:      #6366f1;
+  --color-indigo-dim:  rgba(99, 102, 241, 0.08);
+
+  /* Text */
+  --color-text-primary:   #1a1a2e;
+  --color-text-secondary: #6b7280;
+  --color-text-muted:     #9ca3af;
+
+  /* Fonts */
+  --font-ui:   "DM Sans", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 4px 6px rgba(0, 0, 0, 0.06), 0 2px 4px rgba(0, 0, 0, 0.04);
+
+  /* Brand gradients */
+  --gradient-rooben: linear-gradient(135deg, #14b8a6 0%, #6366f1 50%, #14b8a6 100%);
+  --gradient-hero:  linear-gradient(135deg, #0a0e1a 0%, #1e1b4b 40%, #0f172a 70%, #0a0e1a 100%);
+
+  /* Glow effects */
+  --glow-accent:   0 0 20px rgba(20, 184, 166, 0.15);
+  --glow-accent-lg: 0 0 40px rgba(20, 184, 166, 0.2), 0 0 80px rgba(20, 184, 166, 0.08);
+  --glow-emerald:  0 0 16px rgba(22, 163, 74, 0.2);
+  --glow-amber:    0 0 16px rgba(217, 119, 6, 0.2);
+  --glow-rose:     0 0 16px rgba(220, 38, 38, 0.2);
+  --glow-indigo:   0 0 16px rgba(99, 102, 241, 0.2);
+
+  /* Legacy aliases */
+  --color-cyan:        var(--color-accent);
+  --color-cyan-dim:    var(--color-accent-dim);
+  --color-cyan-mid:    var(--color-accent-mid);
+  --glow-cyan:         var(--glow-accent);
+  --glow-cyan-lg:      var(--glow-accent-lg);
+  --border-glow-cyan:    var(--shadow-md);
+  --border-glow-amber:   var(--shadow-md);
+  --border-glow-emerald: var(--shadow-md);
+  --border-glow-rose:    var(--shadow-md);
+}
+
+/* ─── Dark Theme Tokens ────────────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --color-base:        #0a0e1a;
+  --color-surface-1:   #111827;
+  --color-surface-2:   #1f2937;
+  --color-surface-3:   #374151;
+  --color-border:      #374151;
+  --color-border-dim:  #1f2937;
+  --color-border-muted:#4b5563;
+
+  --color-text-primary:   #f1f5f9;
+  --color-text-secondary: #94a3b8;
+  --color-text-muted:     #64748b;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 4px 6px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
+
+  --glow-accent:   0 0 24px rgba(20, 184, 166, 0.25);
+  --glow-accent-lg: 0 0 48px rgba(20, 184, 166, 0.3), 0 0 96px rgba(20, 184, 166, 0.12);
+  --glow-emerald:  0 0 20px rgba(22, 163, 74, 0.3);
+  --glow-amber:    0 0 20px rgba(217, 119, 6, 0.3);
+  --glow-rose:     0 0 20px rgba(220, 38, 38, 0.3);
+  --glow-indigo:   0 0 20px rgba(99, 102, 241, 0.3);
+}
+
+/* ReactFlow controls — dark mode override */
+[data-theme="dark"] .react-flow__controls-button {
+  background-color: var(--color-surface-2) !important;
+  border-color: var(--color-border) !important;
+  fill: var(--color-text-secondary) !important;
+}
+[data-theme="dark"] .react-flow__controls-button:hover {
+  background-color: var(--color-surface-3) !important;
+}
+
+/* ─── Reset & Base ──────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background-color: var(--color-base);
+  color: var(--color-text-primary);
+  font-family: var(--font-ui);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* ─── Card ──────────────────────────────────────────────────────────────────── */
+.hud-card {
+  background-color: var(--color-base);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  position: relative;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.hud-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: #d1d5db;
+}
+
+/* ─── Stat card ─────────────────────────────────────────────────────────────── */
+.hud-stat {
+  background-color: var(--color-base);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ─── Status indicators ─────────────────────────────────────────────────────── */
+.status-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-emerald);
+}
+
+.status-dot-amber {
+  background-color: var(--color-amber);
+}
+
+.status-dot-rose {
+  background-color: var(--color-rose);
+}
+
+/* ─── Page fade-in + stagger animations ──────────────────────────────────────── */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s ease-out both;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.45s ease-out both;
+}
+
+.animate-slide-down {
+  animation: slide-down 0.25s ease-out both;
+}
+
+/* Stagger delay helpers */
+.stagger-1  { animation-delay: 0.05s; }
+.stagger-2  { animation-delay: 0.10s; }
+.stagger-3  { animation-delay: 0.15s; }
+.stagger-4  { animation-delay: 0.20s; }
+.stagger-5  { animation-delay: 0.25s; }
+.stagger-6  { animation-delay: 0.30s; }
+
+/* ─── Rooben brand animations ────────────────────────────────────────────────── */
+@keyframes gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: var(--glow-accent); }
+  50%      { box-shadow: var(--glow-accent-lg); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.7; }
+}
+
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes check-pop {
+  0%   { transform: scale(0); opacity: 0; }
+  60%  { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes dot-pulse {
+  0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
+  40%           { opacity: 1; transform: scale(1); }
+}
+
+@keyframes flow-dash {
+  to { stroke-dashoffset: -20; }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
+
+.animate-count-up {
+  animation: count-up 0.6s ease-out both;
+}
+
+.animate-check-pop {
+  animation: check-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* ─── Hero background ───────────────────────────────────────────────────────── */
+.rooben-hero-bg {
+  background: var(--gradient-hero);
+  position: relative;
+  overflow: hidden;
+}
+
+.rooben-hero-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(20, 184, 166, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(99, 102, 241, 0.10) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(20, 184, 166, 0.05) 0%, transparent 70%);
+  background-size: 200% 200%;
+  animation: gradient-shift 20s ease infinite;
+  pointer-events: none;
+}
+
+.rooben-hero-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+}
+
+/* ─── Glassmorphism card (for landing page) ──────────────────────────────────── */
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(20, 184, 166, 0.2);
+}
+
+/* ─── CTA Button ─────────────────────────────────────────────────────────────── */
+.rooben-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: 8px;
+  border: none;
+  background: var(--gradient-rooben);
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease infinite;
+  color: #ffffff;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: var(--glow-accent);
+}
+
+.rooben-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--glow-accent-lg);
+}
+
+.rooben-cta:active {
+  transform: translateY(0);
+}
+
+/* ─── Typography helpers ─────────────────────────────────────────────────────── */
+.font-ui   { font-family: var(--font-ui); }
+.font-mono { font-family: var(--font-mono); }
+
+.label-xs {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.label-sm {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+/* ─── Divider ────────────────────────────────────────────────────────────────── */
+.hud-rule {
+  height: 1px;
+  background-color: var(--color-border);
+}
+
+/* ─── Scrollbar styling ──────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-surface-2);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: #4b5563;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+
+/* ─── Selection ──────────────────────────────────────────────────────────────── */
+::selection {
+  background: rgba(20, 184, 166, 0.15);
+  color: var(--color-text-primary);
+}
+
+/* ─── Legacy class stubs (no-op for compatibility) ───────────────────────────── */
+.bg-grid {}
+.scanlines {}
+.text-glow-cyan, .text-glow-amber, .text-glow-emerald, .text-glow-rose {}
+.live-pulse {}
+
+/* ─── Reduced motion ─────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in,
+  .animate-fade-in-up,
+  .animate-gradient,
+  .animate-pulse-glow,
+  .animate-pulse-soft,
+  .animate-count-up,
+  .animate-check-pop {
+    animation: none;
+  }
+  .rooben-hero-bg::before {
+    animation: none;
+  }
+  .rooben-cta {
+    animation: none;
+  }
+}

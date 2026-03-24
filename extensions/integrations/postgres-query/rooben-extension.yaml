@@ -1,0 +1,23 @@
+schema_version: 1
+name: postgres-query
+type: integration
+version: 1.0.0
+author: rooben-community
+license: MIT
+description: "Run read-only SQL queries against PostgreSQL databases"
+tags: [postgres, sql, database, query]
+domain_tags: [data-science, analytics]
+category: builder
+use_cases:
+  - "Query database for analysis workflows"
+  - "Extract data for reporting"
+min_rooben_version: "0.1.0"
+cost_tier: 2
+required_env:
+  - name: DATABASE_URL
+    description: "PostgreSQL connection string"
+servers:
+  - name: postgres
+    transport_type: stdio
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-postgres", "${DATABASE_URL}"]

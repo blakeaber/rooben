@@ -1,0 +1,61 @@
+schema_version: 1
+name: rest-api
+type: template
+version: 1.0.0
+author: rooben
+license: MIT
+description: "Build a production-ready REST API with FastAPI"
+tags: [api, fastapi, python, backend]
+domain_tags: [software, infrastructure]
+category: builder
+use_cases:
+  - "Backend API development"
+  - "Microservice creation"
+  - "API-first application scaffolding"
+min_rooben_version: "0.1.0"
+prefill: "Build a production-ready REST API in Python using FastAPI. Include proper error handling, input validation, Pydantic models, a Pytest test suite with 80%+ coverage, and a multi-stage Dockerfile."
+requires: []
+
+template_agents:
+  - name: "Backend Engineer"
+    description: "Implements API endpoints, data models, and business logic"
+    capabilities: ["python", "fastapi", "api-design", "database"]
+  - name: "Test Engineer"
+    description: "Writes comprehensive test suite with fixtures and edge cases"
+    capabilities: ["testing", "pytest", "api-testing"]
+
+template_workflow_hints:
+  - name: "API Design"
+    description: "Define endpoints, request/response models, and error handling patterns"
+    suggested_agent: "backend-engineer"
+  - name: "Core Implementation"
+    description: "Implement models, routes, validation, and database layer"
+    suggested_agent: "backend-engineer"
+    depends_on: ["API Design"]
+  - name: "Test Suite"
+    description: "Write unit and integration tests with 80%+ coverage target"
+    suggested_agent: "test-engineer"
+    depends_on: ["Core Implementation"]
+  - name: "Containerization"
+    description: "Create multi-stage Dockerfile and docker-compose for local dev"
+    suggested_agent: "backend-engineer"
+    depends_on: ["Core Implementation"]
+
+template_deliverables:
+  - name: "REST API Application"
+    deliverable_type: "api"
+    description: "Production-ready FastAPI application with endpoints, models, and validation"
+  - name: "Test Suite"
+    deliverable_type: "code"
+    description: "Pytest test suite with 80%+ coverage"
+  - name: "Dockerfile"
+    deliverable_type: "infrastructure"
+    description: "Multi-stage Docker build for production deployment"
+
+template_acceptance_criteria:
+  - description: "All endpoints return proper HTTP status codes and error responses"
+    priority: "critical"
+  - description: "Test coverage exceeds 80%"
+    priority: "high"
+  - description: "Docker build completes successfully"
+    priority: "medium"

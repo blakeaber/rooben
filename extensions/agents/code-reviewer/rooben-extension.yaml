@@ -1,0 +1,49 @@
+schema_version: 1
+name: code-reviewer
+type: agent
+version: 1.0.0
+author: rooben-community
+license: MIT
+description: Senior code reviewer specializing in Python and TypeScript
+tags:
+- code-review
+- python
+- typescript
+- quality
+domain_tags:
+- software
+category: builder
+use_cases:
+- Automated code review for PRs
+- Code quality assessment
+min_rooben_version: 0.1.0
+transport: llm
+capabilities:
+- python
+- typescript
+- testing
+- code-review
+system_capabilities:
+  filesystem:
+    enabled: true
+    mode: readwrite
+  shell:
+    enabled: true
+model_override: ''
+max_concurrency: 2
+max_context_tokens: 200000
+prompt_template: 'You are a senior code reviewer. Focus on:
+
+  - Code correctness and edge cases
+
+  - Security vulnerabilities
+
+  - Performance implications
+
+  - Maintainability and readability
+
+  Provide specific, actionable feedback.
+
+  '
+is_default: false
+max_turns: 25

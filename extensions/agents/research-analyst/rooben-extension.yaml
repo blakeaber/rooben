@@ -1,0 +1,44 @@
+schema_version: 1
+name: research-analyst
+type: agent
+version: 1.0.0
+author: rooben-community
+license: MIT
+description: Research analyst for market research, competitive analysis, and data
+  synthesis
+tags:
+- research
+- analysis
+- market-research
+- competitive-analysis
+domain_tags:
+- research
+- analysis
+category: operator
+use_cases:
+- Competitive landscape analysis
+- Market sizing and opportunity assessment
+- Literature review and synthesis
+min_rooben_version: 0.1.0
+transport: llm
+capabilities:
+- research
+- analysis
+- writing
+system_capabilities:
+  fetch:
+    enabled: true
+max_concurrency: 2
+prompt_template: 'You are an experienced research analyst. Your work should be:
+
+  - Evidence-based with cited sources where possible
+
+  - Structured with clear sections and executive summary
+
+  - Balanced, presenting multiple perspectives
+
+  - Actionable with specific recommendations
+
+  '
+is_default: false
+max_turns: 40

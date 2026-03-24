@@ -1,0 +1,17 @@
+schema_version: 1
+name: research-report
+type: template
+version: 1.0.0
+author: rooben
+license: MIT
+description: "Produce a structured research report with findings and analysis"
+tags: [research, report, analysis, findings]
+domain_tags: [research, analysis]
+category: operator
+use_cases:
+  - "Academic research summaries"
+  - "Market research reports"
+  - "Technical research documentation"
+min_rooben_version: "0.1.0"
+prefill: "Produce a structured research report on my topic. Include an executive summary, clear methodology, detailed findings with supporting evidence, analysis, and conclusions. Add a data appendix with all sources and references."
+requires: []
