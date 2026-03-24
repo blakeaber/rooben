@@ -45,7 +45,7 @@ Issues = "https://github.com/blakeaber/rooben/issues"
 mcp = ["mcp[cli]>=1.0,<1.20"]
 openai = ["openai>=1.0"]
 bedrock = ["boto3>=1.35"]
-dashboard = ["fastapi>=0.115", "uvicorn[standard]>=0.34", "sse-starlette>=2.0", "cryptography>=43.0"]
+dashboard = ["fastapi>=0.115", "uvicorn[standard]>=0.34", "sse-starlette>=2.0", "cryptography>=43.0", "asyncpg>=0.29"]
 test = [
     "pytest>=8.0",
     "pytest-asyncio>=0.24",
