@@ -1,7 +1,9 @@
 <p align="center">
-  <img src="docs/assets/rooben-logo.png" alt="Rooben" width="280" />
+  <a href="https://cdn.predicate.ventures/demo.mp4">
+    <img src="https://cdn.predicate.ventures/demo-poster.jpg" alt="Rooben Demo" width="800" style="border-radius: 8px;" />
+  </a>
   <br />
-  <em>Your taste is the product.</em>
+  <em>Click to watch the demo</em>
 </p>
 
 <p align="center">
