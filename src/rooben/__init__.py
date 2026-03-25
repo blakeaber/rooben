@@ -1,6 +1,6 @@
 """Rooben — autonomous agent orchestration framework."""
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 
 # Lazy public API — avoids importing heavy deps at import time
