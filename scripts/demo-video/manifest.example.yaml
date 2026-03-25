@@ -1,0 +1,109 @@
+# Rooben Demo Video Manifest
+# ─────────────────────────────────────────────────────────────────────────────
+# This file declaratively describes the full video structure.
+# Run: ./build.sh manifest.example.yaml
+#
+# Format notes:
+#   - Segments are processed in order (top to bottom)
+#   - type: "title-card" or "clip"
+#   - Captions use pipe-delimited format: text|start|end|position|style
+#   - Timestamps: HH:MM:SS for trim, decimal seconds for captions
+#   - Speed: >1 = faster, <1 = slower, 1 = normal
+
+meta:
+  title: Rooben Demo
+  tagline: Your taste is the product.
+  output: rooben-demo-final.mp4
+  resolution: 1920x1080
+  fps: 30
+
+music:
+  file:
+  volume: 0.08
+
+segments:
+
+  - id: intro
+    type: title-card
+    title: Rooben
+    subtitle: Autonomous Agent Orchestration
+    tagline: Your taste is the product.
+    duration: 4
+    fade_in: 0.8
+    fade_out: 0.5
+
+  - id: hook
+    type: clip
+    source: raw/01-result-preview.mov
+    trim_start: 00:00:00
+    trim_end: 00:00:12
+    speed: 1.0
+    fade_in: 0.5
+    fade_out: 0.3
+    captions:
+      - Rooben turns plain English into verified, multi-agent work product.|0.5|4.5|bottom|default
+      - With built-in cost tracking and proof of quality.|5.0|9.0|bottom|default
+
+  - id: problem
+    type: clip
+    source: raw/02-chatbot-comparison.mov
+    trim_start: 00:00:00
+    trim_end: 00:00:10
+    speed: 1.0
+    fade_in: 0.3
+    fade_out: 0.3
+    captions:
+      - AI chatbots give you text.|0.0|3.0|bottom|default
+      - Real work needs planning, execution, and verification.|3.5|7.0|bottom|default
+
+  - id: live-demo
+    type: clip
+    source: raw/03-cli-execution.mov
+    trim_start: 00:00:01
+    trim_end: 00:00:45
+    speed: 1.5
+    fade_in: 0.3
+    fade_out: 0.3
+    captions:
+      - rooben go "Build a REST API with tests"|0.0|4.0|bottom|code
+      - Spec generated, agents assigned, execution begins.|5.0|10.0|bottom|default
+
+  - id: dag-execution
+    type: clip
+    source: raw/04-dag-visualization.mov
+    trim_start: 00:00:03
+    trim_end: 00:00:25
+    speed: 2.0
+    fade_in: 0.5
+    fade_out: 0.5
+    captions:
+      - Parallel agents executing across dependency levels|1.0|5.0|bottom|default
+
+  - id: features-card
+    type: title-card
+    title: Key Features
+    subtitle: Verification / Cost Tracking / Budget Control
+    duration: 3
+    fade_in: 0.5
+    fade_out: 0.5
+
+  - id: verification
+    type: clip
+    source: raw/05-verification-scores.mov
+    trim_start: 00:00:00
+    trim_end: 00:00:15
+    speed: 1.0
+    fade_in: 0.3
+    fade_out: 0.3
+    captions:
+      - Every output verified with test runner + LLM judge|1.0|6.0|bottom|default
+      - Scores 0.92, 0.95 — real proof, not vibes.|7.0|12.0|bottom|default
+
+  - id: cta
+    type: title-card
+    title: Try Rooben
+    subtitle: github.com/blakeaber/rooben
+    tagline: Open source. Ship verified AI work.
+    duration: 5
+    fade_in: 0.8
+    fade_out: 1.0

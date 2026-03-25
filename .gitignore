@@ -9,3 +9,5 @@ dashboard/out/
 test-screenshots/
 *.png
 .playwright-mcp/
+scripts/demo-video/build/
+scripts/demo-video/raw/

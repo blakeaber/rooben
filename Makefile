@@ -1,4 +1,4 @@
-.PHONY: dev dev-api dev-dash up down build logs install api dash test test-all lint fmt db db-reset db-shell clean doctor
+.PHONY: dev dev-api dev-dash up down build logs install api dash test test-all lint fmt db db-reset db-shell clean doctor demo-video demo-gif
 
 # ── Development (Docker) ───────────────────────────────────────────────────────
 dev: ## Start API + dashboard + postgres (dev mode)
@@ -70,5 +70,14 @@ doctor: ## Run rooben doctor
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-15s\033[0m %s\n", $$1, $$2}'
+
+# ── Demo Video ────────────────────────────────────────────────────────────────
+demo-video: ## Build demo video from manifest (requires ffmpeg)
+	@command -v ffmpeg >/dev/null || (echo "Error: ffmpeg required. Install with: brew install ffmpeg" && exit 1)
+	cd scripts/demo-video && bash build.sh manifest.example.yaml
+
+demo-gif: ## Export GIF preview from demo video (requires ffmpeg)
+	@command -v ffmpeg >/dev/null || (echo "Error: ffmpeg required." && exit 1)
+	cd scripts/demo-video && bash 08-gif.sh build/rooben-demo-final.mp4 build/rooben-demo.gif
 
 .DEFAULT_GOAL := help
