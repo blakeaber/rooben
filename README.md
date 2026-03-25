@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://cdn.predicate.ventures/demo.mp4">
+  <a href="https://cdn.predicate.ventures/demo.mp4" target="_blank">
     <img src="https://cdn.predicate.ventures/demo-poster.jpg" alt="Rooben Demo" width="800" style="border-radius: 8px;" />
   </a>
   <br />
@@ -20,8 +20,9 @@ Rooben turns plain English into verified, multi-agent work product. Describe wha
 
 It's the difference between asking one AI for help and deploying a coordinated team that shows its work.
 
-## The workflow
-
+<details>
+<summary><b>Screenshots</b> — Step-by-step walkthrough of the Rooben workflow, from prompt to verified output</summary>
+<br />
 <table>
 <tr>
 <td width="50%" align="center">
@@ -59,24 +60,20 @@ Every output scored by test runner + LLM judge with detailed feedback
 Cost, tokens, success rate, and history across all workflows
 </td>
 </tr>
-</table>
-
-<details>
-<summary><b>More screenshots</b> — Integrations Hub, AI-Assisted Builder, Revenue Analysis Specification</summary>
-<br />
-<table>
 <tr>
 <td width="50%" align="center">
 <img src="docs/assets/integrations-hub.png" width="100%" />
-<br /><b>Integrations Hub</b> — Browse data sources, templates, and agents
+<br /><b>Integrations Hub</b><br />
+Browse data sources, templates, and agents
 </td>
 <td width="50%" align="center">
 <img src="docs/assets/ai-assisted-builder.png" width="100%" />
-<br /><b>AI-Assisted Builder</b> — Create custom extensions through conversation
+<br /><b>AI-Assisted Builder</b><br />
+Create custom extensions through conversation
 </td>
 </tr>
 <tr>
-<td width="50%" colspan="2" align="center">
+<td colspan="2" align="center">
 <img src="docs/assets/stripe-specification.png" width="70%" />
 <br /><b>Generated Specification</b> — "Analyze our quarterly revenue trends and draft a board update"
 </td>
