@@ -26,55 +26,55 @@ It's the difference between asking one AI for help and deploying a coordinated t
 <table>
 <tr>
 <td width="50%" align="center">
-<img src="docs/assets/rooben-home-page.png" width="100%" />
+<img src="https://raw.githubusercontent.com/blakeaber/rooben/main/docs/assets/rooben-home-page.png" width="100%" />
 <br /><b>1. Describe what you want</b><br />
 Plain English or pick a template — attach files for context
 </td>
 <td width="50%" align="center">
-<img src="docs/assets/interactive-refinement.png" width="100%" />
+<img src="https://raw.githubusercontent.com/blakeaber/rooben/main/docs/assets/interactive-refinement.png" width="100%" />
 <br /><b>2. Refine interactively</b><br />
 Rooben asks clarifying questions to build your specification
 </td>
 </tr>
 <tr>
 <td width="50%" align="center">
-<img src="docs/assets/generated-specification.png" width="100%" />
+<img src="https://raw.githubusercontent.com/blakeaber/rooben/main/docs/assets/generated-specification.png" width="100%" />
 <br /><b>3. Review the specification</b><br />
 Deliverables, agents, acceptance criteria, and budget — before execution
 </td>
 <td width="50%" align="center">
-<img src="docs/assets/task-dag-execution.png" width="100%" />
+<img src="https://raw.githubusercontent.com/blakeaber/rooben/main/docs/assets/task-dag-execution.png" width="100%" />
 <br /><b>4. Watch agents execute</b><br />
 Live DAG visualization — parallel tasks with dependency tracking
 </td>
 </tr>
 <tr>
 <td width="50%" align="center">
-<img src="docs/assets/verification.png" width="100%" />
+<img src="https://raw.githubusercontent.com/blakeaber/rooben/main/docs/assets/verification.png" width="100%" />
 <br /><b>5. Verified results</b><br />
 Every output scored by test runner + LLM judge with detailed feedback
 </td>
 <td width="50%" align="center">
-<img src="docs/assets/workflows-listing.png" width="100%" />
+<img src="https://raw.githubusercontent.com/blakeaber/rooben/main/docs/assets/workflows-listing.png" width="100%" />
 <br /><b>6. Track everything</b><br />
 Cost, tokens, success rate, and history across all workflows
 </td>
 </tr>
 <tr>
 <td width="50%" align="center">
-<img src="docs/assets/integrations-hub.png" width="100%" />
+<img src="https://raw.githubusercontent.com/blakeaber/rooben/main/docs/assets/integrations-hub.png" width="100%" />
 <br /><b>Integrations Hub</b><br />
 Browse data sources, templates, and agents
 </td>
 <td width="50%" align="center">
-<img src="docs/assets/ai-assisted-builder.png" width="100%" />
+<img src="https://raw.githubusercontent.com/blakeaber/rooben/main/docs/assets/ai-assisted-builder.png" width="100%" />
 <br /><b>AI-Assisted Builder</b><br />
 Create custom extensions through conversation
 </td>
 </tr>
 <tr>
 <td colspan="2" align="center">
-<img src="docs/assets/stripe-specification.png" width="70%" />
+<img src="https://raw.githubusercontent.com/blakeaber/rooben/main/docs/assets/stripe-specification.png" width="70%" />
 <br /><b>Generated Specification</b> — "Analyze our quarterly revenue trends and draft a board update"
 </td>
 </tr>

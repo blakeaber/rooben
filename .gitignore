@@ -1,4 +1,6 @@
 .env
+dist/
+*.egg-info/
 **__pycache__/
 tests/artifacts/
 dashboard/node_modules/
