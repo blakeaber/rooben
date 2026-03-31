@@ -10,6 +10,15 @@ import { isProEnabled } from "@/lib/pro-loader";
  */
 const PRO_PAGES: Record<string, ReturnType<typeof dynamic>> = isProEnabled
   ? {
+      "onboarding/goals": dynamic(
+        () => import("@rooben-pro/dashboard/app/onboarding/goals/page")
+      ),
+      "onboarding/provider": dynamic(
+        () => import("@rooben-pro/dashboard/app/onboarding/provider/page")
+      ),
+      "onboarding/start": dynamic(
+        () => import("@rooben-pro/dashboard/app/onboarding/start/page")
+      ),
       learnings: dynamic(
         () => import("@rooben-pro/dashboard/app/learnings/page")
       ),
