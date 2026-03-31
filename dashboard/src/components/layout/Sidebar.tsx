@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
-import { isProEnabled } from "@/lib/pro-loader";
+import { loadProNavGroups } from "@/pro/nav-config";
 
 interface NavItem {
   href: string;
@@ -33,23 +33,8 @@ const NAV_GROUPS: NavGroup[] = [
   },
 ];
 
-// Dynamically load Pro nav groups when Pro is installed
-let proNavGroups: NavGroup[] = [];
-if (isProEnabled) {
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const proConfig = require("@rooben-pro/dashboard/components/layout/sidebar-nav-config");
-    proNavGroups = (proConfig.PRO_NAV_GROUPS ?? []).map((group: NavGroup) => ({
-      ...group,
-      items: group.items.map((item: NavItem) => ({
-        ...item,
-        href: `/pro${item.href}`,
-      })),
-    }));
-  } catch {
-    // Pro not available — no nav items added
-  }
-}
+// Pro nav groups loaded from @/pro/nav-config (returns [] when Pro not installed)
+const proNavGroups = loadProNavGroups();
 
 export function Sidebar() {
   const pathname = usePathname();

@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
-import { isProEnabled } from "@/lib/pro-loader";
+import { isProEnabled } from "@/pro/loader";
 
 /**
  * Map of Pro page paths to their dynamic import loaders.

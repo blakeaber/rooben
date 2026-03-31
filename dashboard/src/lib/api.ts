@@ -22,7 +22,7 @@ function getAuthHeaders(): Record<string, string> {
 export async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${BASE_URL}${path}`, {
     ...init,
-    credentials: "include",
+    credentials: "include", // Send cookies (session auth for Pro, no-op for OSS)
     headers: {
       "Content-Type": "application/json",
       ...getAuthHeaders(),
