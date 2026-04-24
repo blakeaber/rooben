@@ -420,18 +420,25 @@ def _build_spec_summary(info) -> SpecSummary:
 
 @router.get("/api/refine/integration-check")
 async def check_spec_integrations(session_id: str):
-    """Check availability of all integrations required by the current spec draft."""
-    try:
-        from rooben_pro.integrations.availability import check_input_source_integrations
-    except ImportError:
-        return {"sources": [], "error": "Integration checks require rooben-pro"}
+    """Check availability of integrations required by the current spec draft.
 
+    OSS returns a flat list derived from the spec's declared input sources;
+    Pro extends this endpoint (via the extension protocol) with external-service
+    availability checks (OAuth status, API reachability, etc.).
+    """
     session_data = _get_session(session_id)
     engine = session_data["engine"]
     info = engine.state.gathered_info
 
-    checks = await check_input_source_integrations(info.input_sources)
-    return {"sources": checks}
+    sources = [
+        {
+            "name": s.get("integration") or s.get("type") or "unknown",
+            "description": s.get("description") or s.get("name") or "",
+            "available": None,
+        }
+        for s in info.input_sources
+    ]
+    return {"sources": sources}
 
 
 @router.post("/api/refine/launch", response_model=LaunchResponse)

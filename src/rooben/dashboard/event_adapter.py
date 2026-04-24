@@ -98,20 +98,12 @@ class DashboardEventAdapter:
         return (input_tokens * rate[0] + output_tokens * rate[1]) / 1_000_000
 
     async def _handle_workflow_completed(self, payload: dict) -> None:
-        """Pro-only side-effects after workflow completion.
+        """Post-workflow side-effects: user-outcome recording.
 
-        State transition (status update) is already handled by
-        PostgresStateBackend — this handler only fires optional
-        analytics hooks.
+        State transition (status update) is handled by the state backend;
+        this handler only fires optional analytics hooks.
         """
         wf_id = payload.get("workflow_id", "")
-
-        # P13: Record performance snapshot
-        try:
-            from rooben_pro.intelligence.performance_recorder import record_performance_snapshot
-            await record_performance_snapshot(self._pool, wf_id)
-        except Exception:
-            pass  # Best-effort
 
         # P15b: Record user outcome
         try:

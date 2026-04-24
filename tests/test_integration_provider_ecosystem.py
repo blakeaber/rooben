@@ -10,7 +10,7 @@ Covers:
 
 from __future__ import annotations
 
-
+import pytest
 
 from rooben.billing.costs import CostRegistry
 from rooben.domain import TokenUsage
@@ -89,16 +89,18 @@ class TestOSSProSeparation:
         except ImportError:
             pass
 
-    def test_cli_backend_guard(self):
-        """CLI _build_backend raises UsageError for pro backends when not installed."""
+    def test_cli_backend_is_filesystem_only(self):
+        """CLI exposes only the filesystem backend; Pro extensions add more via the extension protocol."""
         import click
         from rooben.cli import _build_backend
 
-        try:
+        # filesystem works
+        from rooben.state.filesystem import FilesystemBackend
+        assert isinstance(_build_backend("filesystem", "/tmp/state"), FilesystemBackend)
+
+        # any other value rejected
+        with pytest.raises(click.BadParameter):
             _build_backend("postgres", "/tmp/state")
-            # If pro installed, may not raise
-        except click.UsageError as e:
-            assert "rooben-pro" in str(e)
 
     def test_billing_tiers_guard(self):
         """Billing tiers require rooben-pro."""

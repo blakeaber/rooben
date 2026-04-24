@@ -388,7 +388,7 @@ class Orchestrator:
     async def _learning_phase(
         self, workflow_id: str, spec: Specification,
     ) -> None:
-        """Post-workflow phase (learning extraction available in rooben-pro)."""
+        """Post-workflow phase: auto-register any agents discovered during the run."""
         try:
             self._auto_register_agents(spec)
         except Exception as exc:

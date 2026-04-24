@@ -196,9 +196,9 @@ def doctor() -> None:
 @click.argument("spec_path", type=click.Path(exists=True))
 @click.option(
     "--backend",
-    type=click.Choice(["filesystem", "postgres"]),
+    type=click.Choice(["filesystem"]),
     default="filesystem",
-    help="State backend to use.",
+    help="State backend to use (Pro extensions may register additional backends).",
 )
 @click.option(
     "--state-dir",
@@ -349,26 +349,16 @@ def _build_backend(backend: str, state_dir: str):  # noqa: ANN201
     if backend == "filesystem":
         from rooben.state.filesystem import FilesystemBackend
         return FilesystemBackend(base_dir=state_dir)
-    elif backend == "postgres":
-        try:
-            from rooben_pro.state.postgres import PostgresBackend
-        except ImportError:
-            raise click.UsageError(
-                "Postgres backend requires rooben-pro. "
-                "Install with: pip install rooben-pro"
-            )
-        return PostgresBackend()
-    else:
-        raise click.BadParameter(f"Unknown backend: {backend}")
+    raise click.BadParameter(f"Unknown backend: {backend}")
 
 
 @main.command()
 @click.argument("workflow_id")
 @click.option(
     "--backend",
-    type=click.Choice(["filesystem", "postgres"]),
+    type=click.Choice(["filesystem"]),
     default="filesystem",
-    help="State backend to use.",
+    help="State backend to use (Pro extensions may register additional backends).",
 )
 @click.option("--state-dir", default=".rooben/state")
 @click.option(
@@ -618,9 +608,9 @@ def demo() -> None:
 @click.argument("description")
 @click.option(
     "--backend",
-    type=click.Choice(["filesystem", "postgres"]),
+    type=click.Choice(["filesystem"]),
     default="filesystem",
-    help="State backend to use.",
+    help="State backend to use (Pro extensions may register additional backends).",
 )
 @click.option("--state-dir", default=".rooben/state", help="Directory for state.")
 @click.option("--model", default="claude-sonnet-4-20250514", help="Default LLM model.")
@@ -638,7 +628,6 @@ def demo() -> None:
 @click.option("--preview", is_flag=True, help="Preview spec and validation, then prompt before running.")
 @click.option("--verbose", "-v", is_flag=True, help="Print full LLM prompts, responses, and token usage.")
 @click.option("--refine", is_flag=True, help="Run 2-3 interactive refinement turns before execution.")
-@click.option("--template", default=None, help="Use a project template (rest-api, cli-tool, data-pipeline, react-app).")
 def go(
     description: str,
     backend: str,
@@ -653,7 +642,6 @@ def go(
     preview: bool,
     verbose: bool,
     refine: bool,
-    template: str | None,
 ) -> None:
     """Generate a spec from natural language and run it.
 
@@ -662,7 +650,7 @@ def go(
     asyncio.run(_go_async(
         description, backend, state_dir, model, provider, save_spec, dry_run, preview, verbose,
         model_planner=model_planner, model_agent=model_agent, model_verifier=model_verifier,
-        refine=refine, template=template,
+        refine=refine,
     ))
 
 
@@ -680,7 +668,6 @@ async def _go_async(
     model_agent: str | None = None,
     model_verifier: str | None = None,
     refine: bool = False,
-    template: str | None = None,
 ) -> None:
     import uuid as _uuid
 
@@ -708,14 +695,8 @@ async def _go_async(
         click.echo("Warning: MCP npm packages not cached. Installing now (run `rooben init` to pre-install)...", err=True)
         ensure_mcp_packages_installed()
 
-    # Generate spec — from template or via LLM oneshot
-    if template:
-        raise click.UsageError(
-            "Templates require rooben-pro. Install with: pip install rooben-pro"
-        )
-    else:
-        click.echo(f"Generating spec from: \"{description}\"")
-        spec = await generate_spec_oneshot(llm_provider, description, workspace_dir=workspace_dir)
+    click.echo(f"Generating spec from: \"{description}\"")
+    spec = await generate_spec_oneshot(llm_provider, description, workspace_dir=workspace_dir)
     # Resolve system capabilities + external integrations for agents
     from rooben.agents.integrations import IntegrationRegistry, load_user_integrations
     from rooben.spec.models import AgentTransport
