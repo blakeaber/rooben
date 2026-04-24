@@ -1,4 +1,4 @@
-.PHONY: dev dev-api dev-dash up down build logs install api dash demo demo-stop test test-all lint fmt db db-reset db-shell clean doctor
+.PHONY: dev dev-api dev-dash up down build logs install api dash demo demo-stop test test-readme test-smoke test-e2e test-fe test-all lint fmt db db-reset db-shell clean doctor
 
 # ── Development (Docker) ───────────────────────────────────────────────────────
 dev: ## Start API + dashboard + postgres (dev mode)
@@ -46,11 +46,29 @@ dash: ## Start dashboard locally on port 3000
 	cd dashboard && npx next dev --port 3000
 
 # ── Testing ────────────────────────────────────────────────────────────────────
-test: ## Run tests (skip e2e)
-	pytest -x -q --ignore=tests/validate_live_e2e.py
+test: ## Run unit + integration tests (skip docker-smoke and browser-e2e)
+	pytest -x -q --ignore=tests/e2e --ignore=tests/validate_live_e2e.py -m "not docker"
 
-test-all: ## Run all tests including e2e
-	pytest -x -q
+test-readme: ## Verify README quickstart commands (rooben demo/doctor/validate)
+	pytest tests/test_readme_quickstart.py -v --timeout=180
+
+test-smoke: ## Docker-compose smoke (brings up make-demo stack, probes endpoints)
+	pytest tests/test_docker_compose_smoke.py -v -m docker --timeout=600
+
+test-e2e: ## Agent-browser evaluator journey (requires `make demo` + agent-browser installed)
+	@which agent-browser >/dev/null 2>&1 || (echo "agent-browser not installed — npm i -g agent-browser"; exit 1)
+	pytest tests/e2e/test_evaluator_journey.py -v --timeout=120
+
+test-fe: ## Dashboard unit tests (Vitest + React Testing Library)
+	cd dashboard && npm run test
+
+test-all: ## Run the full local harness: unit/integration + FE + README + docker smoke
+	$(MAKE) test
+	$(MAKE) test-fe
+	$(MAKE) test-readme
+	$(MAKE) test-smoke
+	@echo ""
+	@echo "  ✓ Full test harness passed. (test-e2e skipped — run separately with make demo running)"
 
 lint: ## Check linting
 	ruff check src/ tests/
