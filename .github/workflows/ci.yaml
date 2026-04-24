@@ -30,7 +30,7 @@ jobs:
       - name: Install dependencies
         run: pip install -e ".[test,dashboard,mcp]"
       - name: Run tests
-        run: python -m pytest tests/ --ignore=tests/e2e -v --timeout=60
+        run: python -m pytest tests/ --ignore=tests/e2e -v --timeout=60 -m "not docker"
 
   validate:
     name: Validate Extensions
