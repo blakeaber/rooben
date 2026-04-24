@@ -22,7 +22,6 @@ from __future__ import annotations
 
 import asyncio
 import json
-import sys
 import tempfile
 from typing import Any
 
@@ -36,10 +35,8 @@ from rooben.agents.mcp_client import MCPClient, MCPToolInfo
 from rooben.agents.registry import AgentRegistry
 from rooben.domain import (
     Task,
-    TaskResult,
     TaskStatus,
     WorkflowState,
-    WorkflowStatus,
 )
 from rooben.planning.provider import GenerationResult
 from rooben.orchestrator import Orchestrator
@@ -828,7 +825,7 @@ async def demo_mcp_agent() -> None:
     print(f"Task: {task.title}")
     print(f"Agent: {agent.agent_id} (MCP transport)")
     print(f"MCP servers: {[c.name for c in mcp_configs]}")
-    print(f"Max turns: 5")
+    print("Max turns: 5")
     print()
 
     # Patch MCPClient methods to use our mock
