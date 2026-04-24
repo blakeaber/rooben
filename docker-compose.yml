@@ -48,6 +48,22 @@ services:
     ports:
       - "8420:8420"
 
+  dashboard:
+    build: ./dashboard
+    depends_on:
+      api:
+        condition: service_healthy
+    environment:
+      NEXT_INTERNAL_API_URL: http://api:8420
+      NEXT_TELEMETRY_DISABLED: "1"
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+
 volumes:
   pgdata:
   rooben_secrets:

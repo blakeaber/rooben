@@ -1,4 +1,4 @@
-.PHONY: dev dev-api dev-dash up down build logs install api dash test test-all lint fmt db db-reset db-shell clean doctor
+.PHONY: dev dev-api dev-dash up down build logs install api dash demo demo-stop test test-all lint fmt db db-reset db-shell clean doctor
 
 # ── Development (Docker) ───────────────────────────────────────────────────────
 dev: ## Start API + dashboard + postgres (dev mode)
@@ -9,6 +9,17 @@ dev-api: ## Start only API + postgres (dev mode)
 
 dev-dash: ## Start only dashboard (assumes API already running)
 	docker compose -f docker-compose.yml -f docker-compose.dev.yml up dashboard
+
+# ── Demo (no API key needed) ───────────────────────────────────────────────────
+demo: ## Boot full stack + seeded demo workflow — no API key, visit :3000/workflows/demo
+	@docker compose -f docker-compose.yml -f docker-compose.demo.yml down -v >/dev/null 2>&1 || true
+	docker compose -f docker-compose.yml -f docker-compose.demo.yml up -d --wait --build
+	@echo ""
+	@echo "  ✓ Rooben demo is live — open http://localhost:3000/workflows/demo"
+	@echo ""
+
+demo-stop: ## Tear down the demo stack (drops data volume)
+	docker compose -f docker-compose.yml -f docker-compose.demo.yml down -v
 
 # ── Docker (production-like) ───────────────────────────────────────────────────
 up: ## Production docker-compose up

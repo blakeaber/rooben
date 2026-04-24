@@ -92,6 +92,18 @@ rooben demo
 
 This runs a full orchestration with mock providers — planning, multi-agent execution, verification, budget enforcement — so you can see the framework in action without spending a cent.
 
+## See the dashboard (2 minutes, no API key)
+
+```bash
+git clone https://github.com/blakeaber/rooben.git
+cd rooben
+make demo
+```
+
+Boots the full stack — Postgres + API + MCP gateway + dashboard — with a seeded demo workflow. Open **http://localhost:3000/workflows/demo** to explore a completed orchestration: task DAG, agent outputs, verification scores, and cost breakdown. No API keys required.
+
+Tear down: `make demo-stop`
+
 ## Real usage
 
 ```bash

@@ -1,0 +1,20 @@
+# Demo overlay: mounts a seed SQL file that pre-populates one completed
+# workflow with three verified tasks and cost telemetry. Runs only on a fresh
+# Postgres volume (Postgres executes init scripts exactly once per volume).
+#
+# Two quirks to be aware of:
+# 1. docker-compose REPLACES `services.X.volumes` arrays across files rather
+#    than merging them, so we restate the base volumes alongside the seed.
+# 2. Postgres runs /docker-entrypoint-initdb.d files in ASCII order. Digits
+#    come BEFORE letters, so a `99-` prefix would run the seed BEFORE
+#    init.sql. We mount as `seed-demo.sql` (letters "s" > "i") so the seed
+#    runs AFTER init.sql creates the tables.
+#
+# Usage:  make demo       # = docker compose -f docker-compose.yml -f docker-compose.demo.yml up -d --wait
+# Teardown: make demo-stop
+services:
+  postgres:
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./scripts/seed-demo.sql:/docker-entrypoint-initdb.d/seed-demo.sql:ro

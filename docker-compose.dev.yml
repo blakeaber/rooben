@@ -1,0 +1,15 @@
+# Dev overlay: HMR for the Python API and the Next.js dashboard.
+# Usage: docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+services:
+  api:
+    volumes:
+      - ./src/rooben:/app/src/rooben:ro
+    command: ["/app/entrypoint.sh", "uvicorn", "rooben.dashboard.app:create_app", "--factory", "--host", "0.0.0.0", "--port", "8420", "--reload"]
+
+  dashboard:
+    environment:
+      NODE_ENV: development
+    volumes:
+      - ./dashboard/src:/app/src
+      - ./dashboard/public:/app/public
+    command: ["npm", "run", "dev"]
