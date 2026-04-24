@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.2.1] - 2026-04-24
+
+### Fixed
+- **`rooben demo` from a PyPI install.** The demo script lived at
+  `examples/demo_orchestration.py`, which wasn't bundled in the wheel, so
+  `pip install rooben && rooben demo` surfaced "Demo script not found".
+  The demo has been moved into the package as `rooben._demo_orchestration`
+  and `rooben demo` now imports directly. `examples/demo_orchestration.py`
+  remains as a thin wrapper for repo clones (`python examples/...`).
+
 ## [0.2.0] - 2026-04-24
 
 Post-launch cleanup pass. OSS core is now cleanly decoupled from rooben-pro,

@@ -586,22 +586,8 @@ def dashboard(host: str, port: int, dev: bool) -> None:
 def demo() -> None:
     """Run a full feature demo with mock providers (no API key needed)."""
     click.echo("Running Rooben feature demo (no API key required)...\n")
-    try:
-        from examples.demo_orchestration import main as demo_main
-        asyncio.run(demo_main())
-    except Exception:
-        # Fall back to running the demo script as a subprocess
-        import subprocess
-        demo_path = Path(__file__).resolve().parents[2] / "examples" / "demo_orchestration.py"
-        if demo_path.exists():
-            subprocess.run([sys.executable, str(demo_path)], check=True)
-        else:
-            click.echo(
-                "Demo script not found. Run directly:\n"
-                "  python examples/demo_orchestration.py",
-                err=True,
-            )
-            raise SystemExit(1)
+    from rooben._demo_orchestration import main as demo_main
+    asyncio.run(demo_main())
 
 
 @main.command()
