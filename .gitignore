@@ -1,13 +1,50 @@
-.env
+# OS
+**/.DS_Store
+Thumbs.db
+
+# Python
+**/__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.tox/
+.coverage
+coverage.xml
+htmlcov/
+coverage/
+
+# Packaging
 dist/
+build/
 *.egg-info/
-**__pycache__/
-tests/artifacts/
+*.egg
+
+# Node / Next
+.next/
 dashboard/node_modules/
 dashboard/.next/
 dashboard/out/
+dashboard/coverage/
+
+# Test output
+playwright-report/
+test-results/
+test-screenshots/
+.playwright-mcp/
+tests/artifacts/
+
+# Editor / local
+.vscode/
+.idea/
+*.swp
+
+# Runtime / secrets / state
+.env
 .rooben/
 .claude/
-test-screenshots/
+
+# Dev screenshots (intentional asset PNGs under docs/assets/ stay tracked since
+# they were added explicitly; this rule prevents new ones from slipping in)
 *.png
-.playwright-mcp/
