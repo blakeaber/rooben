@@ -11,34 +11,98 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
       - run: pip install ruff
       - run: ruff check src/ tests/
 
   test:
-    name: Tests
+    name: Tests (Python ${{ matrix.python-version }})
     needs: lint
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
-          python-version: "3.11"
+          python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: pip install -e ".[test,dashboard,mcp]"
       - name: Run tests
         run: python -m pytest tests/ --ignore=tests/e2e -v --timeout=60 -m "not docker"
+
+  readme-quickstart:
+    name: README quickstart
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Install OSS package only (mirrors README `pip install rooben`)
+        run: pip install -e . pytest pytest-asyncio pytest-timeout
+      - name: Run README-quickstart validator
+        run: python -m pytest tests/test_readme_quickstart.py -v --timeout=180
+
+  dashboard-test:
+    name: Dashboard unit tests
+    needs: lint
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: dashboard
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: dashboard/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      - name: Run Vitest with coverage
+        run: npm run test:coverage
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dashboard-coverage
+          path: dashboard/coverage/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  e2e-docker:
+    name: E2E docker-compose smoke
+    needs: [test, dashboard-test]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Install Python deps
+        run: pip install -e ".[test,dashboard,mcp]"
+      - name: Run docker-compose smoke tests (fixture brings the stack up/down)
+        run: python -m pytest tests/test_docker_compose_smoke.py -v -m docker --timeout=600
+      - name: Dump compose logs on failure
+        if: failure()
+        run: |
+          docker compose -f docker-compose.yml -f docker-compose.demo.yml logs | tail -300 || true
 
   validate:
     name: Validate Extensions
     needs: lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
       - name: Install dependencies
