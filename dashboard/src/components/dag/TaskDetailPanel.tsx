@@ -382,12 +382,16 @@ export function TaskDetailPanel({ task, onClose, agents, onUpdate }: TaskDetailP
               <>
                 <DataRow
                   label="Tokens"
-                  value={task.result!.token_usage.toLocaleString()}
+                  value={task.result?.token_usage?.toLocaleString() ?? "—"}
                   accent="#0d9488"
                 />
                 <DataRow
                   label="Wall time"
-                  value={`${task.result!.wall_seconds.toFixed(2)}s`}
+                  value={
+                    task.result?.wall_seconds !== undefined
+                      ? `${task.result.wall_seconds.toFixed(2)}s`
+                      : "—"
+                  }
                 />
               </>
             )}
@@ -427,15 +431,19 @@ export function TaskDetailPanel({ task, onClose, agents, onUpdate }: TaskDetailP
             >
               <DataRow
                 label="Input"
-                value={tokenDetail.input_tokens.toLocaleString()}
+                value={tokenDetail.input_tokens?.toLocaleString() ?? "—"}
               />
               <DataRow
                 label="Output"
-                value={tokenDetail.output_tokens.toLocaleString()}
+                value={tokenDetail.output_tokens?.toLocaleString() ?? "—"}
               />
               <DataRow
                 label="Cost"
-                value={`$${tokenDetail.cost_usd.toFixed(6)}`}
+                value={
+                  tokenDetail.cost_usd !== undefined
+                    ? `$${tokenDetail.cost_usd.toFixed(6)}`
+                    : "—"
+                }
                 accent="#16a34a"
               />
             </dl>

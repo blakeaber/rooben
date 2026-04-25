@@ -249,16 +249,13 @@ export default function SpecOverviewPage() {
           <SectionLabel>Agents ({meta.agents.length})</SectionLabel>
           <div className="grid gap-3 md:grid-cols-2">
             {meta.agents.map((a: Record<string, string>, i: number) => (
-              <Link
+              <div
                 key={a.id ?? i}
-                href={`/agents/${a.id}`}
                 className="rounded-md p-3"
                 style={{
-                  display: "block",
                   backgroundColor: "var(--color-base)",
                   border: "1px solid var(--color-border)",
                   boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
-                  textDecoration: "none",
                 }}
               >
                 <span
@@ -286,7 +283,7 @@ export default function SpecOverviewPage() {
                       : a.description}
                   </p>
                 )}
-              </Link>
+              </div>
             ))}
           </div>
         </div>

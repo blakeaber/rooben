@@ -1,10 +1,4 @@
-<p align="center">
-  <a href="https://cdn.predicate.ventures/demo.mp4" target="_blank">
-    <img src="https://cdn.predicate.ventures/demo-poster.jpg" alt="Rooben Demo" width="800" style="border-radius: 8px;" />
-  </a>
-  <br />
-  <em>Click to watch the demo</em>
-</p>
+# Rooben
 
 <p align="center">
   <a href="https://pypi.org/project/rooben/"><img src="https://img.shields.io/pypi/v/rooben?color=blue" alt="PyPI" /></a>
@@ -14,14 +8,24 @@
   <a href="https://github.com/blakeaber/rooben/stargazers"><img src="https://img.shields.io/github/stars/blakeaber/rooben?style=social" alt="Stars" /></a>
 </p>
 
+> [**Specs, not prompts.**](https://www.predicate.ventures/writing/specs-not-prompts) Plain English in. A planned, executed, and verified work product out — with every dollar tracked.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/blakeaber/rooben/main/docs/assets/demo.gif" alt="Rooben dashboard executing a multi-agent workflow with live DAG visualization, animated dependency edges, and a running cost gauge" width="900">
+</p>
+
 ---
 
-Rooben turns plain English into verified, multi-agent work product. Describe what you want. Rooben builds the plan, assembles specialized AI agents, executes in parallel, verifies every output, tracks every dollar, and delivers the result.
+## Why this exists
 
-It's the difference between asking one AI for help and deploying a coordinated team that shows its work.
+- **The problem:** Single-shot LLM calls produce plausible-looking output with no plan, no verification, and no cost ceiling. Multi-agent demos look great in tweets and break in production.
+- **The approach:** A **spec-as-contract** that names the deliverables, acceptance criteria, and budget *before* a single token is spent. Rooben decomposes the spec into a DAG, runs agents in parallel, and verifies every output against the criteria you wrote.
+- **The twist:** You watch it happen. Live DAG, live verification scores, live cost — every dollar accounted for, every claim cited. The proof is in the motion above.
+
+---
 
 <details>
-<summary><b>Screenshots</b> — Step-by-step walkthrough of the Rooben workflow, from prompt to verified output</summary>
+<summary><b>More screenshots</b> — Step-by-step walkthrough of the Rooben workflow, from prompt to verified output</summary>
 <br />
 <table>
 <tr>
@@ -89,6 +93,10 @@ Create custom extensions through conversation
 pip install rooben
 rooben demo
 ```
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/blakeaber/rooben/main/docs/assets/demo-cli.gif" alt="rooben demo running in a terminal — full orchestration with mock providers, no API key required" width="720">
+</p>
 
 This runs a full orchestration with mock providers — planning, multi-agent execution, verification, budget enforcement — so you can see the framework in action without spending a cent.
 
