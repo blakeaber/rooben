@@ -28,13 +28,22 @@ ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO tasks
     (id, workstream_id, workflow_id, title, description,
-     status, result, output, created_at, started_at, completed_at)
+     status, attempt, result, attempt_feedback, output,
+     created_at, started_at, completed_at)
 VALUES
     ('demo-t1', 'demo-ws-main', 'demo',
      'Design the API schema',
      'Define the book resource shape, field types, and CRUD endpoints.',
-     'completed',
+     'completed', 1,
      '{"verified": true, "score": 0.92, "feedback": "Schema covers required fields (id, title, author, isbn, publishedAt); RESTful routes /books and /books/{id}."}'::jsonb,
+     '[{"attempt": 1, "score": 0.92, "passed": true, "verifier_type": "llm_judge",
+        "feedback": "Schema covers required fields (id, title, author, isbn, publishedAt); RESTful routes /books and /books/{id}.",
+        "suggested_improvements": [],
+        "test_results": [
+          {"name": "covers required Book fields", "passed": true},
+          {"name": "RESTful resource paths", "passed": true},
+          {"name": "ISBN format documented", "passed": true}
+        ]}]'::jsonb,
      'POST /books          — create a book' || chr(10) ||
      'GET  /books          — list books (?page, ?limit)' || chr(10) ||
      'GET  /books/{id}     — retrieve a book' || chr(10) ||
@@ -48,8 +57,19 @@ VALUES
     ('demo-t2', 'demo-ws-main', 'demo',
      'Implement CRUD endpoints with tests',
      'FastAPI implementation with pytest coverage >= 90%.',
-     'completed',
+     'completed', 1,
      '{"verified": true, "score": 0.88, "feedback": "All 5 endpoints implemented; 12 pytest cases pass; coverage 94%."}'::jsonb,
+     '[{"attempt": 1, "score": 0.88, "passed": true, "verifier_type": "test_runner",
+        "feedback": "All 5 endpoints implemented; 12 pytest cases pass; coverage 94%.",
+        "suggested_improvements": ["Add rate-limit tests", "Cover concurrent-write edge cases"],
+        "test_results": [
+          {"name": "POST /books creates and returns 201", "passed": true},
+          {"name": "GET /books returns paginated list", "passed": true},
+          {"name": "GET /books/{id} returns 404 for missing", "passed": true},
+          {"name": "PUT /books/{id} updates fields", "passed": true},
+          {"name": "DELETE /books/{id} returns 204", "passed": true},
+          {"name": "coverage >= 90%", "passed": true}
+        ]}]'::jsonb,
      '# app/main.py — 84 LOC' || chr(10) ||
      'from fastapi import FastAPI, HTTPException' || chr(10) ||
      '# Book model, in-memory store, 5 CRUD handlers' || chr(10) || chr(10) ||
@@ -61,8 +81,16 @@ VALUES
     ('demo-t3', 'demo-ws-main', 'demo',
      'Write API documentation',
      'OpenAPI spec + README with curl examples.',
-     'completed',
+     'completed', 1,
      '{"verified": true, "score": 0.95, "feedback": "OpenAPI 3.1 spec auto-generated; README contains 5 runnable curl commands and response samples."}'::jsonb,
+     '[{"attempt": 1, "score": 0.95, "passed": true, "verifier_type": "llm_judge",
+        "feedback": "OpenAPI 3.1 spec auto-generated; README contains 5 runnable curl commands and response samples.",
+        "suggested_improvements": [],
+        "test_results": [
+          {"name": "OpenAPI 3.1 schema validates", "passed": true},
+          {"name": "README curl examples cover all 5 endpoints", "passed": true},
+          {"name": "response samples included for each endpoint", "passed": true}
+        ]}]'::jsonb,
      '## Books API' || chr(10) || chr(10) ||
      '### Create a book' || chr(10) ||
      'curl -X POST http://localhost:8000/books \' || chr(10) ||
