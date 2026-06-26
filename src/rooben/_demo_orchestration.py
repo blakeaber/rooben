@@ -23,7 +23,12 @@ from __future__ import annotations
 import asyncio
 import json
 import tempfile
+from pathlib import Path
 from typing import Any
+
+# examples/ lives at the repo root; resolve it from this module so `rooben demo`
+# works from any cwd (and degrades gracefully when examples/ isn't packaged).
+_EXAMPLES_DIR = Path(__file__).resolve().parents[2] / "examples"
 
 # ============================================================================
 # STEP 0: Imports — the key modules you'll use from rooben
@@ -648,7 +653,11 @@ def demo_yaml_loading() -> None:
     """
     banner("Demo 2: YAML Specification Loading")
 
-    spec = load_spec("examples/hello_api.yaml")
+    spec_path = _EXAMPLES_DIR / "hello_api.yaml"
+    if not spec_path.exists():
+        print("  (examples/ not found in this install — skipping the YAML-load demo)")
+        return
+    spec = load_spec(str(spec_path))
     print(f"Loaded: {spec.title}")
     print(f"  ID:           {spec.id}")
     print(f"  Goal:         {spec.goal[:80]}...")
