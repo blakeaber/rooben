@@ -538,3 +538,10 @@ python -m pytest tests/ -v
 ## License
 
 [Apache-2.0](LICENSE) — Copyright (c) 2024 Blake Aber
+
+
+## 📝 Writing
+
+Deep-dives on the ideas behind this project: **[predicate.ventures/writing](https://www.predicate.ventures/writing)**.
+
+- [Specs, not prompts](https://www.predicate.ventures/writing/specs-not-prompts)
